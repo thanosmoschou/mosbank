@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sign Up Page</title>
+        <link rel="stylesheet" href="../css/signupStyles.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    </head>
+
+    <body>
+        <header>
+            <h2 class="pageTitle">mosbank</h2>
+        </header>
+
+        <div class="signupArea">
+            <p id="signupPromptLabel">Let's sign up!</p>
+            <form class="signupForm" method="post"><br>
+
+                <label id="firstNameLabel" for="firstname">First Name:</label><br>
+                <input type="text" id="firstname" name="firstname" placeholder="e.g John" required value=" John"><br>
+
+                <label id="lastNameLabel" for="lastname">Last Name:</label><br>
+                <input type="text" id="lastname" name="lastname" placeholder="e.g Doe" required value="John "><br>
+
+                <label id="usernameLabel" for="username">Username:</label><br>
+                <input type="text" id="username" name="username" placeholder="e.g JohnDoe123" required value=" John "><br>
+
+                <label id="passwordLabel" for="password">Password:</label><br>
+                <input type="password" id="password" name="password" required value="John"><br>
+
+                <label id="emailLabel" for="email">Email:</label><br>
+                <input type="email" id="email" name="email" placeholder="johndoe@example.com" required value="John"><br>
+
+                <label id="telephoneLabel" for="telephone">Telephone:</label><br>
+                <input type="tel" id="telephone" name="telephone" placeholder="6944444444" required value="6944444444"><br>
+
+                <input id="submitButton" type="submit" value="Sign Up">
+                <button id="cancelButton">Cancel</button>
+
+            </form>
+        </div>
+
+        <footer>
+            <h5 id="author">v1.0 by Thanos Moschou, 2023 &copy;</h5>
+        </footer>
+    </body>
+</html>
