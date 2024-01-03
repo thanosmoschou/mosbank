@@ -1,0 +1,159 @@
+@font-face{
+    font-family: Sofia;
+    src: url(../fonts/Sofia-Regular.ttf);
+}
+
+@font-face{
+    font-family: Comfortaa;
+    src: url(../fonts/Comfortaa-Regular.ttf);
+}
+
+body{
+    background-image: url(../images/moneyBackground.jpg);
+    background-size: cover;
+}
+
+.pageTitle{
+    position: relative; /*space will be included inside the document*/
+    font-family: Sofia;
+    font-size: 50px;
+    color: #cccccc;
+    width: 150px;
+    text-align: center;
+    margin-left: 30px;
+    margin-top: 3px;
+}
+
+.loginArea{
+    font-size: 25px;
+    color: white;
+    padding: 4px;
+    text-align: center;
+    width: 300px;
+    height: 400px;
+    margin: auto;
+    margin-top: 0px;
+    border-radius: 10px;
+    background: linear-gradient(to right, rgba(237, 7, 194, 0.9), rgba(1, 112, 209, 0.9));
+
+    /*
+    box-shadow: [horizontal offset] [vertical offset] [blur radius] [color];
+
+    Now, breaking down the values in 5px 0 10px #0170d1:
+    5px: This is the horizontal offset, indicating how far the shadow will be displaced to the right. 
+    In this case, it's 5 pixels to the right.
+
+    0: This is the vertical offset, indicating how far the shadow will be displaced vertically. 
+    Here, it's set to 0, meaning there is no vertical displacement (the shadow is directly above or below the element).
+
+    10px: This is the blur radius, determining how blurry or sharp the shadow edges are. 
+    A higher value creates a more diffuse, softer shadow.
+
+    #0170d1: This is the color of the shadow. In this example, it's set to the blue color #0170d1.
+
+    5px 0 10px #0170d1 is saying:
+    Displace the shadow 5 pixels to the right.
+    Don't displace it vertically (0 pixels).
+    Make the shadow 10 pixels blurry.
+    Color the shadow with the blue color #0170d1.
+
+    -5px 0 10px #ed07c2 is saying:
+    Displace the shadow 5 pixels to the left.
+    Don't displace it vertically (0 pixels).
+    Make the shadow 10 pixels blurry.
+    Color the shadow with the pink color #ed07c2.
+    */
+    box-shadow: -5px 0 10px #ed07c2, 5px 0 10px #0170d1; 
+    opacity: 0.9;
+
+}
+
+.loginForm{
+    position: relative; /*space inside the anchestor will be calculated inside the document*/
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    height: 430px;
+}
+
+#loginPromptLabel{
+    position: relative; /*if you add position property you unlock top, bottom, left, right properties. Cannot use top and bottom together or left and right together.*/
+    font-family: Comfortaa;
+    top: 10px; 
+    padding: 10px; /* Adding padding for better spacing around the label */
+    
+}
+
+#usernameLabel, #passwordLabel{
+    position: absolute; /*the space for this element will not be calculated inside the anchestor...like the elements are above the anchestor*/
+    left: 10px;
+    font-family: Comfortaa;
+    padding-left: 10px; /*Adding padding for better spacing around the label */
+    text-align: left;
+}
+
+#usernameLabel{
+    margin-top: 20px;
+    top: 5px;
+}
+
+#passwordLabel{
+    margin-top: 20px; 
+    top: 85px;
+}
+
+#username, #password{
+    position: relative;
+    font-family: Comfortaa;
+    font-size: 15px;
+    width: 250px;
+    height: 30px;
+    padding-left: 5px;
+    background-color: #cccccc;
+    border-radius: 8px;
+    opacity: 0.9;
+    border: none;
+}
+
+#username{
+   top: 10px;
+}
+
+#password{
+    top: 35px;
+}
+
+#signupLink{
+    position: relative;
+    font-family: Comfortaa;
+    font-size: 12px;
+    color: white;
+    text-decoration: none;
+    width: 250px;
+    top: 50px; /*The top side of this element is 10px away from the above element*/
+    padding-left: 20px;
+    text-align: center;
+}
+
+#submitButton{
+    position: relative;
+    font-family: Comfortaa;
+    height: 35px;
+    width: 100px;
+    border-radius: 10px;
+    border-style: none;
+    background-color: #333333;
+    color: white;
+    top: 80px;
+}
+
+#author{
+    position: fixed;
+    font-family: Sofia;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+    right: 0px;
+    bottom: 0px;
+    width: 250px;
+}
