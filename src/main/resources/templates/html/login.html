@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://thymeleaf.org">
     <head>
         <title>Login Page</title>
-        <link rel="stylesheet" href="../css/loginStyles.css">
+        <link rel="stylesheet" th:href="@{/css/loginStyles.css}">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -14,12 +14,12 @@
 
         <div class="loginArea">
             <p id="loginPromptLabel">Let's login!</p>
-            <form class="loginForm" method="post"><br>
+            <form class="loginForm" method="post" action="#" th:action="@{/validateLogin}"><br>
                 <label id="usernameLabel" for="username">Username:</label><br>
                 <input type="text" id="username" name="username"><br>
                 <label id="passwordLabel" for="password">Password:</label><br>
                 <input type="password" id="password" name="password"><br>
-                <a id="signupLink" href="signup.html" target="_self">Don't have an account? Sign Up!</a><br>
+                <a id="signupLink" href="/signup" target="_self">Don't have an account? Sign Up!</a><br>
                 <input id="submitButton" type="submit" value="Login">
             </form>
         </div>

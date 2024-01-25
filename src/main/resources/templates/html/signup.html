@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://thymeleaf.org">
     <head>
         <title>Sign Up Page</title>
-        <link rel="stylesheet" href="../css/signupStyles.css">
+        <link rel="stylesheet" th:href="@{/css/signupStyles.css}">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=0.9">
     </head>
@@ -14,28 +14,28 @@
 
         <div class="signupArea">
             <p id="signupPromptLabel">Let's sign up!</p>
-            <form class="signupForm" method="post"><br>
+            <form class="signupForm" method="post" action="#" th:action="@{/validateSignUp}"><br>
 
                 <label id="firstNameLabel" for="firstname">First Name:</label><br>
-                <input type="text" id="firstname" name="firstname" placeholder="e.g John" required value=" John"><br>
+                <input type="text" id="firstname" name="firstname" th:placeholder="'e.g John'" required><br>
 
                 <label id="lastNameLabel" for="lastname">Last Name:</label><br>
-                <input type="text" id="lastname" name="lastname" placeholder="e.g Doe" required value="John "><br>
+                <input type="text" id="lastname" name="lastname" th:placeholder="'e.g Doe'" required><br>
 
                 <label id="usernameLabel" for="username">Username:</label><br>
-                <input type="text" id="username" name="username" placeholder="e.g JohnDoe123" required value=" John "><br>
+                <input type="text" id="username" name="username" th:placeholder="'e.g JohnDoe123'" required><br>
 
                 <label id="passwordLabel" for="password">Password:</label><br>
-                <input type="password" id="password" name="password" required value="John"><br>
+                <input type="password" id="password" name="password" required><br>
 
                 <label id="emailLabel" for="email">Email:</label><br>
-                <input type="email" id="email" name="email" placeholder="johndoe@example.com" required value="John"><br>
+                <input type="email" id="email" name="email" th:placeholder="'johndoe@example.com'" required><br>
 
                 <label id="telephoneLabel" for="telephone">Telephone:</label><br>
-                <input type="tel" id="telephone" name="telephone" placeholder="6944444444" required value="6944444444"><br>
+                <input type="tel" id="telephone" name="telephone" th:placeholder="'6944444444'" required><br>
 
                 <input id="submitButton" type="submit" value="Sign Up">
-                <button id="cancelButton">Cancel</button>
+                <button id="cancelButton" onclick="window.location='/'">Cancel</button>
 
             </form>
         </div>
