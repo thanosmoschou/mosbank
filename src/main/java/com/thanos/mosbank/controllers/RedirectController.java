@@ -54,7 +54,7 @@ public class RedirectController
 	}
 	
 	@RequestMapping(path = "/validateLogin", method = RequestMethod.POST)
-	public String validateLoginCredentials(@RequestBody MultiValueMap<String, String> values, Model model)
+	public String login(@RequestBody MultiValueMap<String, String> values, Model model)
 	{
 		//values.get("key") returns a list that contains my value. This list has
 		//only one element so with get(0) I can get it.
@@ -67,7 +67,7 @@ public class RedirectController
 		if(returnedValue == StatusCode.WRONG_USERNAME)
 		{
 			model.addAttribute("errorMessage", Alerts.WRONG_USERNAME_MESSAGE);
-			model.addAttribute("backUrl", "login");
+			model.addAttribute("backUrl", "login"); //this creates a hyperlink to go back to login page
 			return "html/somethingwentwrong";
 		}
 		else if(returnedValue == StatusCode.WRONG_PASSWORD)
@@ -81,12 +81,16 @@ public class RedirectController
 	}
 	
 	@RequestMapping(path = "/validateSignUp", method = RequestMethod.POST)
-	public String validateSignInCredentials(@RequestBody MultiValueMap<String, String> values)
+	public void validateSignUpCredentials(@RequestBody MultiValueMap<String, String> values)
 	{
-		System.out.println(values.get("firstname") + " " + values.get("lastname") +
-				" " + values.get("username") + " " + values.get("password") +
-				" " + values.get("email") + " " + values.get("telephone"));
-		return "html/mainPage";
+		String firstname = values.get("firstname").get(0);
+		String lastname = values.get("lastname").get(0);
+		String username = values.get("username").get(0);
+		String password = values.get("password").get(0);
+		String email = values.get("email").get(0);
+		String telephone = values.get("telephone").get(0);
+		
+		validator.signUp(firstname, lastname, username, password, email, telephone);
 	}
 	
 	
