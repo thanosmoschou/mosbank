@@ -19,5 +19,4 @@ public class MosbankApplication
 	{
 		SpringApplication.run(MosbankApplication.class, args);
 	}
-
 }
