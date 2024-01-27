@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.thanos.mosbank.StatusCode;
 import com.thanos.mosbank.alerts.Alerts;
+import com.thanos.mosbank.errorCodes.StatusCode;
 import com.thanos.mosbank.validator.Validator;
 
 @Controller
@@ -81,7 +81,7 @@ public class RedirectController
 	}
 	
 	@RequestMapping(path = "/validateSignUp", method = RequestMethod.POST)
-	public void validateSignUpCredentials(@RequestBody MultiValueMap<String, String> values)
+	public String signUp(@RequestBody MultiValueMap<String, String> values, Model model)
 	{
 		String firstname = values.get("firstname").get(0);
 		String lastname = values.get("lastname").get(0);
@@ -90,7 +90,37 @@ public class RedirectController
 		String email = values.get("email").get(0);
 		String telephone = values.get("telephone").get(0);
 		
-		validator.signUp(firstname, lastname, username, password, email, telephone);
+		//the return value is the user's id if user exists, otherwise it contains an error code
+		int returnedValue = validator.signUp(firstname, lastname, username, password, email, telephone);
+		
+		if(returnedValue == StatusCode.USERNAME_ALREADY_EXISTS)
+		{
+			model.addAttribute("errorMessage", Alerts.USERNAME_ALREADY_EXISTS_MESSAGE);
+			model.addAttribute("backUrl", "signup");
+			return "html/somethingwentwrong";
+		}
+		else if(returnedValue == StatusCode.INVALID_PASSWORD)
+		{
+			model.addAttribute("errorMessage", Alerts.PASSWORD_DOES_NOT_MEET_CRITERIA_MESSAGE);
+			model.addAttribute("backUrl", "signup");
+			return "html/somethingwentwrong";
+		}
+		else if(returnedValue == StatusCode.INVALID_EMAIL)
+		{
+			model.addAttribute("errorMessage", Alerts.INVALID_EMAIL_MESSAGE);
+			model.addAttribute("backUrl", "signup");
+			return "html/somethingwentwrong";
+		}
+		else if(returnedValue == StatusCode.INVALID_PHONE_NUMBER)
+		{
+			model.addAttribute("errorMessage", Alerts.INVALID_PHONE_NUMBER_MESSAGE);
+			model.addAttribute("backUrl", "signup");
+			return "html/somethingwentwrong";
+		}
+		else
+		{
+			return "html/mainPage";
+		}
 	}
 	
 	

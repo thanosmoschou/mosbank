@@ -15,7 +15,7 @@ create table users(
 
 create table cards(
     number varchar(16) primary key,
-    expireDate varchar(5),
+    expire_date varchar(5),
     cvv varchar(3),
     userid int,
     foreign key (userid) references users(id) on delete cascade

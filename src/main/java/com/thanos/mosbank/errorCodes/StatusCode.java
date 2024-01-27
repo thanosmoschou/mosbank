@@ -1,4 +1,4 @@
-package com.thanos.mosbank;
+package com.thanos.mosbank.errorCodes;
 
 public class StatusCode
 {

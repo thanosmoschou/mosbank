@@ -7,15 +7,33 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.thanos.mosbank.StatusCode;
+import com.thanos.mosbank.errorCodes.StatusCode;
+import com.thanos.mosbank.generators.CardCredentialsGenerator;
+import com.thanos.mosbank.generators.IbanGenerator;
+import com.thanos.mosbank.model.BankAccount;
+import com.thanos.mosbank.model.Card;
 import com.thanos.mosbank.model.Credentials;
+import com.thanos.mosbank.model.Iban;
+import com.thanos.mosbank.model.User;
+import com.thanos.mosbank.repos.BankAccountRepository;
+import com.thanos.mosbank.repos.CardRepository;
 import com.thanos.mosbank.repos.CredentialsRepository;
+import com.thanos.mosbank.repos.IbanRepository;
+import com.thanos.mosbank.repos.UserRepository;
 
 //Singleton design pattern
 public class Validator 
 {
 	@Autowired
 	private CredentialsRepository credentialsRepo;
+	@Autowired
+	private UserRepository usersRepo;
+	@Autowired
+	private CardRepository cardsRepo;
+	@Autowired
+	private IbanRepository ibanRepo;
+	@Autowired
+	private BankAccountRepository bankAccountRepo;
 	private static Validator instance = null;
 	
 	private Validator()
@@ -105,11 +123,60 @@ public class Validator
 		
 		if(!isPhoneValid(telephone))
 			return StatusCode.INVALID_PHONE_NUMBER;
-			
-		//create iban and card and store the user to the db.
-		//Create a user first, store the user, create a credentials object and store it.
-		//Create a card and store it. Finally create a bank account
-		return 0;
+		
+				
+		//id is created automatically in the db
+		User createdUser = User.builder()
+						       .firstname(firstname)
+						       .lastname(lastname)
+						       .email(email)
+						       .telephone(telephone)
+						       .build();
+		
+		usersRepo.save(createdUser);
+		
+		//Now I want to get the user created but I want him to have his id being set,
+		//so I need to retrieve him from the db.
+		//The user is last in the table because it has the bigger id number
+		//until a new user registers.
+		//id is the primary key. This is why I take the last record of the table
+		//simple as that.
+		//If username is primary key in some other table, I need to traverse
+		//the whole table because it is ordered in lexical order.
+		List<User> allUsers = usersRepo.findAll();
+		createdUser = allUsers.get(allUsers.size() - 1);
+	
+		//generate user's card
+		Card userCard = Card.builder()
+							.number(CardCredentialsGenerator.generateCardNumber())
+							.expireDate(CardCredentialsGenerator.generateExpireDate())
+							.cvv(CardCredentialsGenerator.generateCVV())
+							.user(createdUser)
+							.build();
+		
+		cardsRepo.save(userCard);
+		
+		Credentials userCred = Credentials.builder()
+										  .username(username)
+										  .password(password)
+										  .user(createdUser)
+										  .build();
+		
+		credentialsRepo.save(userCred);
+		
+		Iban userIban = Iban.builder()
+							.iban(IbanGenerator.generateIban())
+							.user(createdUser)
+							.build();
+		
+		ibanRepo.save(userIban);
+		
+		//account id is created automatically
+		BankAccount userBankAccount = BankAccount.builder()
+												 .balance(1000)
+												 .user(createdUser)
+												 .build();
+		return createdUser.fetchUserId();
 	}
 	
 	public boolean usernameAlreadyExists(String username)
