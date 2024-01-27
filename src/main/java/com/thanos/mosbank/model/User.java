@@ -6,13 +6,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@Builder
 @Entity
 @Table(name = "users")
 public class User 
@@ -28,5 +29,19 @@ public class User
 	public int fetchUserId()
 	{
 		return this.id;
+	}
+	
+	public boolean hasFirstname(String firstname)
+	{
+		return this.firstname.equals(firstname);
+	}
+	
+	public void printInfo()
+	{
+		System.out.println("Id: " + this.id);
+		System.out.println("Firstname: " + this.firstname);
+		System.out.println("Lastname: " + this.lastname);
+		System.out.println("Email: " + this.email);
+		System.out.println("Telephone: " + this.telephone);
 	}
 }
