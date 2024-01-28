@@ -6,6 +6,23 @@
     <title>Main Page</title>
 </head>
 <body>
-    <p>under construction</p>
+    <header>
+        <h1 id="dashboard">Dashboard</h1>
+        <ul>
+            <li><a th:href="@{'/transaction/' + ${userid}}">New Transaction</a></li>
+            <li><a th:href="@{'/account/' + ${userid}}">My Account</a></li>
+            <li><a th:href="@{/}">Logout</a></li>
+        </ul>
+    </header>
+
+    <main>
+        <h2 id="welcomeUserLabel" th:text="'Welcome ' + ${firstname}"></h2>
+        <h3>under construction</p>
+
+    </main>
+
+    <footer>
+        <h5 id="author">v1.0 by Thanos Moschou, 2023 &copy;</h5>
+    </footer>
 </body>
 </html>

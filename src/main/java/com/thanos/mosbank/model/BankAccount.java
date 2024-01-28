@@ -27,4 +27,14 @@ public class BankAccount
 	@OneToOne
 	@JoinColumn(name = "userid", referencedColumnName = "id")
 	private User user;
+	
+	public boolean hasUser(User aUser)
+	{
+		return this.user.equals(aUser);
+	}
+	
+	public int getBalance()
+	{
+		return this.balance;
+	}
 }

@@ -1,9 +1,9 @@
 package com.thanos.mosbank.db;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.thanos.mosbank.generators.CardCredentialsGenerator;
-import com.thanos.mosbank.generators.IbanGenerator;
 import com.thanos.mosbank.model.BankAccount;
 import com.thanos.mosbank.model.Card;
 import com.thanos.mosbank.model.Credentials;
@@ -47,6 +47,11 @@ public class DbSaver
 		return usersRepo.findById(id).get();
 	}
 	
+	public List<User> fetchAllUsersFromRepository()
+	{
+		return usersRepo.findAll();
+	}
+	
 	public Card fetchCardFromDb(String cardNumber)
 	{
 		return cardsRepo.findById(cardNumber).get();
@@ -65,6 +70,16 @@ public class DbSaver
 	public BankAccount fetchBankAccountFromDb(int id)
 	{
 		return bankAccountRepo.findById(id).get();
+	}
+	
+	public BankAccount fetchBankAccountFromDbViaUser(User user)
+	{
+		List<BankAccount> accounts = bankAccountRepo.findAll();
+		
+		for(BankAccount a : accounts)
+			if(a.hasUser(user))
+				return a;
+		return null;
 	}
 	
 	public void storeUserToRepository(String firstname, String lastname, String email, String telephone)

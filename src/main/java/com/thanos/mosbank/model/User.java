@@ -8,11 +8,13 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@Getter
 @Builder
 @Entity
 @Table(name = "users")
@@ -36,6 +38,7 @@ public class User
 		return this.firstname.equals(firstname);
 	}
 	
+	/*
 	public void printInfo()
 	{
 		System.out.println("Id: " + this.id);
@@ -44,4 +47,5 @@ public class User
 		System.out.println("Email: " + this.email);
 		System.out.println("Telephone: " + this.telephone);
 	}
+	*/
 }

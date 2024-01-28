@@ -20,11 +20,8 @@ import com.thanos.mosbank.repos.UserRepository;
 public class Validator 
 {
 	private static Validator instance = null;
-	
 	@Autowired
-	private CredentialsRepository credentialsRepo;
-	@Autowired
-	private UserRepository usersRepo;
+	private DbSaver dbSaver;
 	
 	private Validator()
 	{
@@ -50,11 +47,11 @@ public class Validator
 	{
 		//Return the row that has the value of username.
 		//Represent the row as a credentials object.
-		
 		Credentials usersCredentials = null;
+		
 		try
 		{
-			usersCredentials = credentialsRepo.findById(username).get();
+			usersCredentials = dbSaver.fetchCredentialsFromDb(username);
 			
 			if(usersCredentials == null)
 				return StatusCode.WRONG_USERNAME;
@@ -100,9 +97,7 @@ public class Validator
 	 * Otherwise it returns an id which is the id of the user just created.
 	 */
 	public int signUp(String firstname, String lastname, String username, String password, String email, String telephone)
-	{
-		DbSaver saver = DbSaver.getInstance();
-		
+	{		
 		if(usernameAlreadyExists(username))
 			return StatusCode.USERNAME_ALREADY_EXISTS;
 		
@@ -115,7 +110,7 @@ public class Validator
 		if(!isPhoneValid(telephone))
 			return StatusCode.INVALID_PHONE_NUMBER;
 		
-		saver.storeUserToRepository(firstname, lastname, email, telephone);
+		dbSaver.storeUserToRepository(firstname, lastname, email, telephone);
 		
 		//Now I want to get the user created but I want him to have his id being set,
 		//so I need to retrieve him from the db.
@@ -125,7 +120,7 @@ public class Validator
 		//simple as that.
 		//If username is primary key in some other table, I need to traverse
 		//the whole table because it is ordered in lexical order.
-		List<User> allUsers = usersRepo.findAll();
+		List<User> allUsers = dbSaver.fetchAllUsersFromRepository();
 		User createdUser = allUsers.get(allUsers.size() - 1);
 	
 		String generatedCardNumber = CardCredentialsGenerator.generateCardNumber();
@@ -133,10 +128,10 @@ public class Validator
 		String cvv = CardCredentialsGenerator.generateCVV();
 		String ibanNumber = IbanGenerator.generateIban();
 		
-		saver.storeCardToRepository(generatedCardNumber, expDate, cvv, createdUser);
-		saver.storeCredentialsToRepository(username, password, createdUser);
-		saver.storeIbanToRepository(ibanNumber, createdUser);
-		saver.storeBankAccountToRepository(createdUser);
+		dbSaver.storeCardToRepository(generatedCardNumber, expDate, cvv, createdUser);
+		dbSaver.storeCredentialsToRepository(username, password, createdUser);
+		dbSaver.storeIbanToRepository(ibanNumber, createdUser);
+		dbSaver.storeBankAccountToRepository(createdUser);
 		
 		return createdUser.fetchUserId();
 	}
@@ -147,7 +142,7 @@ public class Validator
 		
 		try
 		{
-			cred = credentialsRepo.findById(username).get();
+			cred = dbSaver.fetchCredentialsFromDb(username);
 		}
 		catch(NoSuchElementException e)
 		{

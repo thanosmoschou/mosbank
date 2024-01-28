@@ -1,8 +1,10 @@
 package com.thanos.mosbank.db;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -127,6 +129,24 @@ class DbSaverTest
 		when(bankAccountRepo.findById(30)).thenReturn(Optional.of(userBankAccount));
 		
 		BankAccount ret = testDbSaver.fetchBankAccountFromDb(30);
+		assertEquals(userBankAccount, ret);
+	}
+	
+	@Test
+	void testIfBankAccountIsSaved2()
+	{
+		//in this test I search for a bank account via user
+		BankAccount userBankAccount = BankAccount.builder()
+												 .accountId(30)
+												 .balance(0)
+												 .user(createdUser)
+												 .build();
+
+		testDbSaver.storeBankAccountToRepository(createdUser);
+		
+		when(bankAccountRepo.findAll()).thenReturn(List.of(userBankAccount));
+		
+		BankAccount ret = testDbSaver.fetchBankAccountFromDbViaUser(createdUser);
 		assertEquals(userBankAccount, ret);
 	}
 

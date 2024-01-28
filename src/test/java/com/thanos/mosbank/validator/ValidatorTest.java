@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.thanos.mosbank.db.DbSaver;
 import com.thanos.mosbank.model.Credentials;
 import com.thanos.mosbank.repos.CredentialsRepository;
 import com.thanos.mosbank.repos.UserRepository;
@@ -21,9 +22,7 @@ import com.thanos.mosbank.repos.UserRepository;
 class ValidatorTest 
 {
 	@Mock
-	private CredentialsRepository credRepo;
-	@Mock
-	private UserRepository userRepo;
+	private DbSaver dbSaver;
 	@InjectMocks
 	private Validator testValidator; //Spring injects a bean
 	
@@ -33,8 +32,8 @@ class ValidatorTest
 		Credentials c1 = new Credentials("thanos", "changeme", null); //I do not specify a user object
 		String thisUsernameExists = "thanos";
 				
-		credRepo.save(c1);
-		when(credRepo.findById("thanos")).thenReturn(Optional.of(c1));
+		dbSaver.storeCredentialsToRepository("thanos", "changeme", null);;
+		when(dbSaver.fetchCredentialsFromDb("thanos")).thenReturn(Optional.of(c1).get());
 	
 		assertTrue(testValidator.usernameAlreadyExists(thisUsernameExists));
 	}
@@ -45,8 +44,8 @@ class ValidatorTest
 		Credentials c1 = new Credentials("thanos", "changeme", null); //I do not specify a user object
 		String thisUsernameDoesNotExist = "makis";
 				
-		credRepo.save(c1);
-		when(credRepo.findById("makis")).thenThrow(NoSuchElementException.class);
+		dbSaver.storeCredentialsToRepository("thanos", "changeme", null);;
+		when(dbSaver.fetchCredentialsFromDb("makis")).thenThrow(NoSuchElementException.class);
 	
 		//the repo will throw an exception and usernameAlreadyExists method will catch it and return false as the result
 		assertFalse(testValidator.usernameAlreadyExists(thisUsernameDoesNotExist));
