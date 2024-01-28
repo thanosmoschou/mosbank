@@ -15,12 +15,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.thanos.mosbank.model.Credentials;
 import com.thanos.mosbank.repos.CredentialsRepository;
+import com.thanos.mosbank.repos.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 class ValidatorTest 
 {
 	@Mock
 	private CredentialsRepository credRepo;
+	@Mock
+	private UserRepository userRepo;
 	@InjectMocks
 	private Validator testValidator; //Spring injects a bean
 	
@@ -189,5 +192,4 @@ class ValidatorTest
 		
 		assertFalse(testValidator.isPhoneValid(invalidPhone3));
 	}
-
 }

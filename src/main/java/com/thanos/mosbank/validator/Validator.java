@@ -7,34 +7,24 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.thanos.mosbank.db.DbSaver;
 import com.thanos.mosbank.errorCodes.StatusCode;
 import com.thanos.mosbank.generators.CardCredentialsGenerator;
 import com.thanos.mosbank.generators.IbanGenerator;
-import com.thanos.mosbank.model.BankAccount;
-import com.thanos.mosbank.model.Card;
 import com.thanos.mosbank.model.Credentials;
-import com.thanos.mosbank.model.Iban;
 import com.thanos.mosbank.model.User;
-import com.thanos.mosbank.repos.BankAccountRepository;
-import com.thanos.mosbank.repos.CardRepository;
 import com.thanos.mosbank.repos.CredentialsRepository;
-import com.thanos.mosbank.repos.IbanRepository;
 import com.thanos.mosbank.repos.UserRepository;
 
 //Singleton design pattern
 public class Validator 
 {
+	private static Validator instance = null;
+	
 	@Autowired
 	private CredentialsRepository credentialsRepo;
 	@Autowired
 	private UserRepository usersRepo;
-	@Autowired
-	private CardRepository cardsRepo;
-	@Autowired
-	private IbanRepository ibanRepo;
-	@Autowired
-	private BankAccountRepository bankAccountRepo;
-	private static Validator instance = null;
 	
 	private Validator()
 	{
@@ -111,6 +101,7 @@ public class Validator
 	 */
 	public int signUp(String firstname, String lastname, String username, String password, String email, String telephone)
 	{
+		DbSaver saver = DbSaver.getInstance();
 		
 		if(usernameAlreadyExists(username))
 			return StatusCode.USERNAME_ALREADY_EXISTS;
@@ -124,16 +115,7 @@ public class Validator
 		if(!isPhoneValid(telephone))
 			return StatusCode.INVALID_PHONE_NUMBER;
 		
-				
-		//id is created automatically in the db
-		User createdUser = User.builder()
-						       .firstname(firstname)
-						       .lastname(lastname)
-						       .email(email)
-						       .telephone(telephone)
-						       .build();
-		
-		usersRepo.save(createdUser);
+		saver.storeUserToRepository(firstname, lastname, email, telephone);
 		
 		//Now I want to get the user created but I want him to have his id being set,
 		//so I need to retrieve him from the db.
@@ -144,38 +126,18 @@ public class Validator
 		//If username is primary key in some other table, I need to traverse
 		//the whole table because it is ordered in lexical order.
 		List<User> allUsers = usersRepo.findAll();
-		createdUser = allUsers.get(allUsers.size() - 1);
+		User createdUser = allUsers.get(allUsers.size() - 1);
 	
-		//generate user's card
-		Card userCard = Card.builder()
-							.number(CardCredentialsGenerator.generateCardNumber())
-							.expireDate(CardCredentialsGenerator.generateExpireDate())
-							.cvv(CardCredentialsGenerator.generateCVV())
-							.user(createdUser)
-							.build();
+		String generatedCardNumber = CardCredentialsGenerator.generateCardNumber();
+		String expDate = CardCredentialsGenerator.generateExpireDate();
+		String cvv = CardCredentialsGenerator.generateCVV();
+		String ibanNumber = IbanGenerator.generateIban();
 		
-		cardsRepo.save(userCard);
+		saver.storeCardToRepository(generatedCardNumber, expDate, cvv, createdUser);
+		saver.storeCredentialsToRepository(username, password, createdUser);
+		saver.storeIbanToRepository(ibanNumber, createdUser);
+		saver.storeBankAccountToRepository(createdUser);
 		
-		Credentials userCred = Credentials.builder()
-										  .username(username)
-										  .password(password)
-										  .user(createdUser)
-										  .build();
-		
-		credentialsRepo.save(userCred);
-		
-		Iban userIban = Iban.builder()
-							.iban(IbanGenerator.generateIban())
-							.user(createdUser)
-							.build();
-		
-		ibanRepo.save(userIban);
-		
-		//account id is created automatically
-		BankAccount userBankAccount = BankAccount.builder()
-												 .balance(1000)
-												 .user(createdUser)
-												 .build();
 		return createdUser.fetchUserId();
 	}
 	
