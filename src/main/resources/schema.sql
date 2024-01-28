@@ -35,14 +35,14 @@ create table credentials(
 );
 
 create table bankaccounts(
-    accountid int auto_increment primary key,
+    account_id int auto_increment primary key,
     balance int,
     userid int,
     foreign key(userid) references users(id) on delete cascade
 );
 
 create table transactions(
-    transid int auto_increment primary key,
+    trans_id int auto_increment primary key,
     transdate varchar(10),
     useriban varchar(40),
     amount int,

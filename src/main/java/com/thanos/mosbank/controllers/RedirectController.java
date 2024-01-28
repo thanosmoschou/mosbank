@@ -10,11 +10,13 @@ package com.thanos.mosbank.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.thanos.mosbank.alerts.Alerts;
+import com.thanos.mosbank.editView.ViewEditor;
 import com.thanos.mosbank.errorCodes.StatusCode;
 import com.thanos.mosbank.validator.Validator;
 
@@ -22,10 +24,12 @@ import com.thanos.mosbank.validator.Validator;
 public class RedirectController 
 {
 	private Validator validator;
+	private ViewEditor viewEditor;
 	
-	public RedirectController(Validator validator)
+	public RedirectController(Validator validator, ViewEditor viewEditor)
 	{
 		this.validator = validator;
+		this.viewEditor = viewEditor;
 	}
 	
 	@RequestMapping(path = "/")
@@ -53,6 +57,18 @@ public class RedirectController
 		return "html/signup";
 	}
 	
+	@RequestMapping(path = "/transaction/{userid}")
+	public String showNewTransactionPage(@PathVariable String userid)
+	{
+		return "html/newtransaction";
+	}
+	
+	@RequestMapping(path = "/account/{userid}")
+	public String showMyAccountPage(@PathVariable String userid)
+	{
+		return "html/myaccount";
+	}
+	
 	@RequestMapping(path = "/validateLogin", method = RequestMethod.POST)
 	public String login(@RequestBody MultiValueMap<String, String> values, Model model)
 	{
@@ -77,7 +93,10 @@ public class RedirectController
 			return "html/somethingwentwrong";
 		}
 		else
-			return "html/mainPage"; //fetch users data to customize the page
+		{
+			viewEditor.putInfoToTheMainPageTemplate(returnedValue, model);
+			return "html/mainpage";
+		}
 	}
 	
 	@RequestMapping(path = "/validateSignUp", method = RequestMethod.POST)
@@ -119,7 +138,7 @@ public class RedirectController
 		}
 		else
 		{
-			return "html/mainPage";
+			return "html/mainpage";
 		}
 	}
 	

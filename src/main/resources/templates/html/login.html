@@ -12,17 +12,19 @@
             <h2 class="pageTitle">mosbank</h2>
         </header>
 
-        <div class="loginArea">
-            <p id="loginPromptLabel">Let's login!</p>
-            <form class="loginForm" method="post" action="#" th:action="@{/validateLogin}"><br>
-                <label id="usernameLabel" for="username">Username:</label><br>
-                <input type="text" id="username" name="username"><br>
-                <label id="passwordLabel" for="password">Password:</label><br>
-                <input type="password" id="password" name="password"><br>
-                <a id="signupLink" href="/signup" target="_self">Don't have an account? Sign Up!</a><br>
-                <input id="submitButton" type="submit" value="Login">
-            </form>
-        </div>
+        <main>
+            <div class="loginArea">
+                <p id="loginPromptLabel">Let's login!</p>
+                <form class="loginForm" method="post" action="#" th:action="@{/validateLogin}"><br>
+                    <label id="usernameLabel" for="username">Username:</label><br>
+                    <input type="text" id="username" name="username"><br>
+                    <label id="passwordLabel" for="password">Password:</label><br>
+                    <input type="password" id="password" name="password"><br>
+                    <a id="signupLink" href="/signup" target="_self">Don't have an account? Sign Up!</a><br>
+                    <input id="submitButton" type="submit" value="Login">
+                </form>
+            </div>
+        </main>
 
         <footer>
             <h5 id="author">v1.0 by Thanos Moschou, 2023 &copy;</h5>
