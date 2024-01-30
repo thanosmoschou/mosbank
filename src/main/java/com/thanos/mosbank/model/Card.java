@@ -18,11 +18,17 @@ import lombok.NoArgsConstructor;
 @Table(name = "cards")
 public class Card 
 {
+	/*
+	 * Spring Data Jpa uses underscore notation if an attribute
+	 * is bigger than 1 word. So here in my attributes I use this notation.
+	 * Keep in mind that in my method parameters I use lowerCamelcase.
+	 */
+	
 	@Id
 	private String number;
-	private String expireDate;
+	private String expire_date;
 	private String cvv;
 	@OneToOne
-	@JoinColumn(name = "userid", referencedColumnName = "id")
+	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
 	private User user;
 }

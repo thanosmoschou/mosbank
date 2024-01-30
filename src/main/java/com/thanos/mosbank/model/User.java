@@ -20,9 +20,15 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 public class User 
 {
+	/*
+	 * Spring Data Jpa uses underscore notation if an attribute
+	 * is bigger than 1 word. So here in my attributes I use this notation.
+	 * Keep in mind that in my method parameters I use lowerCamelcase.
+	 */
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int user_id;
 	private String firstname;
 	private String lastname;
 	private String email;
@@ -30,7 +36,7 @@ public class User
 	
 	public int fetchUserId()
 	{
-		return this.id;
+		return this.user_id;
 	}
 	
 	public boolean hasFirstname(String firstname)

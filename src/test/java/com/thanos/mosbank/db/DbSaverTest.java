@@ -17,11 +17,13 @@ import com.thanos.mosbank.model.BankAccount;
 import com.thanos.mosbank.model.Card;
 import com.thanos.mosbank.model.Credentials;
 import com.thanos.mosbank.model.Iban;
+import com.thanos.mosbank.model.Transaction;
 import com.thanos.mosbank.model.User;
 import com.thanos.mosbank.repos.BankAccountRepository;
 import com.thanos.mosbank.repos.CardRepository;
 import com.thanos.mosbank.repos.CredentialsRepository;
 import com.thanos.mosbank.repos.IbanRepository;
+import com.thanos.mosbank.repos.TransactionRepository;
 import com.thanos.mosbank.repos.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,16 +39,23 @@ class DbSaverTest
 	IbanRepository ibanRepo;
 	@Mock
 	BankAccountRepository bankAccountRepo;
+	@Mock
+	TransactionRepository transactionsRepo;
 	@InjectMocks
 	DbSaver testDbSaver;
 	
 	User createdUser = User.builder()
-						   .id(1) //there is no interaction with a db so I specify the id manually
+						   .user_id(1) //there is no interaction with a db so I specify the id manually
 						   .firstname("George")
 						   .lastname("Ioannou")
 						   .email("george@george.com")
 						   .telephone("6978787878")
 						   .build();
+	
+	Iban userIban = Iban.builder()
+						.iban("GR788965412365897898")
+						.user(createdUser)
+						.build();
 	
 	@Test
 	void testIfUserIsSaved()
@@ -78,7 +87,7 @@ class DbSaverTest
 		
 		when(credRepo.findById("thanos")).thenReturn(Optional.of(userCred));
 		
-		Credentials ret = testDbSaver.fetchCredentialsFromDb("thanos");
+		Credentials ret = testDbSaver.fetchSingleCredentialsFromDb("thanos");
 		assertEquals(userCred, ret);
 	}
 	
@@ -88,7 +97,7 @@ class DbSaverTest
 		Card userCard = Card.builder()
 							.number("4556383361319387")
 							.cvv("808")
-							.expireDate("08/25")
+							.expire_date("08/25")
 							.build();
 		
 		testDbSaver.storeCardToRepository("4556383361319387", "808", "08/25", createdUser);
@@ -100,13 +109,8 @@ class DbSaverTest
 	}
 	
 	@Test
-	void testIfIbanIsSaved()
+	void testIfIbanIsSavedSearchByIbanString()
 	{
-		Iban userIban = Iban.builder()
-							.iban("GR788965412365897898")
-							.user(createdUser)
-							.build();
-		
 		testDbSaver.storeIbanToRepository("GR788965412365897898", createdUser);
 		
 		when(ibanRepo.findById("GR788965412365897898")).thenReturn(Optional.of(userIban));
@@ -116,10 +120,21 @@ class DbSaverTest
 	}
 	
 	@Test
-	void testIfBankAccountIsSaved()
+	void testIfIbanIsSavedSearchByUser()
+	{
+		testDbSaver.storeIbanToRepository("GR788965412365897898", createdUser);
+		
+		when(ibanRepo.findAll()).thenReturn(List.of(userIban));
+		
+		Iban ret = testDbSaver.fetchIbanFromDbViaUser(createdUser);
+		assertEquals(userIban, ret);
+	}
+	
+	@Test
+	void testIfBankAccountIsSavedSearchByBankAccountId()
 	{
 		BankAccount userBankAccount = BankAccount.builder()
-												 .accountId(30)
+												 .account_id(30)
 												 .balance(0)
 												 .user(createdUser)
 												 .build();
@@ -133,11 +148,11 @@ class DbSaverTest
 	}
 	
 	@Test
-	void testIfBankAccountIsSaved2()
+	void testIfBankAccountIsSavedSearchByUser()
 	{
 		//in this test I search for a bank account via user
 		BankAccount userBankAccount = BankAccount.builder()
-												 .accountId(30)
+												 .account_id(30)
 												 .balance(0)
 												 .user(createdUser)
 												 .build();
@@ -150,4 +165,37 @@ class DbSaverTest
 		assertEquals(userBankAccount, ret);
 	}
 
+	@Test
+	void testIfTransactionIsSavedSearchByTransactionid()
+	{
+		Transaction fakeTrans = Transaction.builder()
+										   .trans_id(10)
+										   .trans_date("01/01/2024")
+										   .iban(userIban)
+										   .amount(1000)
+										   .build();
+		
+		testDbSaver.storeTransactionToRepository("01/01/2024", userIban, 1000);
+		when(transactionsRepo.findById(10)).thenReturn(Optional.of(fakeTrans));
+		
+		Transaction retTrans = testDbSaver.fetchSingleTransactionFromDb(10);
+		assertEquals(fakeTrans, retTrans);
+	}
+	
+	@Test
+	void testIfTransactionIsSavedSearchAllUserTransactionsByIban()
+	{
+		Transaction fakeTrans = Transaction.builder()
+										   .trans_id(10)
+										   .trans_date("01/01/2024")
+										   .iban(userIban)
+										   .amount(1000)
+										   .build();
+		
+		testDbSaver.storeTransactionToRepository("01/01/2024", userIban, 1000);
+		when(transactionsRepo.findAll()).thenReturn(List.of(fakeTrans));
+		
+		List<Transaction> retTrans = testDbSaver.fetchAllUserTransactionsViaIban(userIban);
+		assertEquals(List.of(fakeTrans), retTrans);
+	}
 }

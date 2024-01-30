@@ -9,15 +9,29 @@
     <header>
         <h1 id="dashboard">Dashboard</h1>
         <ul>
-            <li><a th:href="@{'/transaction/' + ${userid}}">New Transaction</a></li>
-            <li><a th:href="@{'/account/' + ${userid}}">My Account</a></li>
+            <li><a th:href="@{'/transaction/' + ${user_id}}">New Transaction</a></li>
+            <li><a th:href="@{'/account/' + ${user_id}}">My Account</a></li>
             <li><a th:href="@{/}">Logout</a></li>
         </ul>
     </header>
 
     <main>
         <h2 id="welcomeUserLabel" th:text="'Welcome ' + ${firstname}"></h2>
-        <h3>under construction</p>
+        <h3 id="balanceLabel" th:text="'Your Balance: ' + ${balance}"></h3>
+        <h4 id="transactionsLabel">Let's see your transactions!</h4>
+
+        <table>
+            <tr>
+                <td>Transaction Id</td>
+                <td>Date</td>
+                <td>Amount</td>
+            </tr>
+            <tr th:each="transaction : ${usertransactions}">
+                <td th:text="${transaction.trans_id}"></td>
+                <td th:text="${transaction.trans_date}"></td>
+                <td th:text="${transaction.amount}"></td>
+            </tr>
+        </table>
 
     </main>
 

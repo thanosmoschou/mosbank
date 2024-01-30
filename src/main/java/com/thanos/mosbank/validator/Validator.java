@@ -51,7 +51,7 @@ public class Validator
 		
 		try
 		{
-			usersCredentials = dbSaver.fetchCredentialsFromDb(username);
+			usersCredentials = dbSaver.fetchSingleCredentialsFromDb(username);
 			
 			if(usersCredentials == null)
 				return StatusCode.WRONG_USERNAME;
@@ -142,7 +142,7 @@ public class Validator
 		
 		try
 		{
-			cred = dbSaver.fetchCredentialsFromDb(username);
+			cred = dbSaver.fetchSingleCredentialsFromDb(username);
 		}
 		catch(NoSuchElementException e)
 		{

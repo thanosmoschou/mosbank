@@ -1,5 +1,6 @@
 package com.thanos.mosbank.db;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +9,13 @@ import com.thanos.mosbank.model.BankAccount;
 import com.thanos.mosbank.model.Card;
 import com.thanos.mosbank.model.Credentials;
 import com.thanos.mosbank.model.Iban;
+import com.thanos.mosbank.model.Transaction;
 import com.thanos.mosbank.model.User;
 import com.thanos.mosbank.repos.BankAccountRepository;
 import com.thanos.mosbank.repos.CardRepository;
 import com.thanos.mosbank.repos.CredentialsRepository;
 import com.thanos.mosbank.repos.IbanRepository;
+import com.thanos.mosbank.repos.TransactionRepository;
 import com.thanos.mosbank.repos.UserRepository;
 
 //Singleton Design Pattern
@@ -30,6 +33,8 @@ public class DbSaver
 	private IbanRepository ibanRepo;
 	@Autowired
 	private BankAccountRepository bankAccountRepo;
+	@Autowired
+	private TransactionRepository transactionsRepo;
 	
 	private DbSaver()
 	{	
@@ -57,16 +62,30 @@ public class DbSaver
 		return cardsRepo.findById(cardNumber).get();
 	}
 	
-	public Credentials fetchCredentialsFromDb(String username)
+	public Credentials fetchSingleCredentialsFromDb(String username)
 	{
 		return credentialsRepo.findById(username).get();
 	}
 	
+	//maybe useless here
 	public Iban fetchIbanFromDb(String iban)
 	{
 		return ibanRepo.findById(iban).get();
 	}
 	
+	public Iban fetchIbanFromDbViaUser(User user)
+	{
+		List<Iban> ibans = ibanRepo.findAll();
+		
+		for(Iban i : ibans)
+			if(i.hasUser(user))
+				return i;
+		return null;
+	}
+	
+	
+	//Maybe useless in my case because I do not know the id explicitly.
+	//This is useful if I know the id from the db and retrieve the account.
 	public BankAccount fetchBankAccountFromDb(int id)
 	{
 		return bankAccountRepo.findById(id).get();
@@ -80,6 +99,22 @@ public class DbSaver
 			if(a.hasUser(user))
 				return a;
 		return null;
+	}
+	
+	//The same here
+	public Transaction fetchSingleTransactionFromDb(int transId)
+	{
+		return transactionsRepo.findById(transId).get();
+	}
+	
+	public List<Transaction> fetchAllUserTransactionsViaIban(Iban iban)
+	{
+		List<Transaction> userTrans = new ArrayList<Transaction>();
+		
+		for(Transaction tr : transactionsRepo.findAll())
+			if(tr.hasIban(iban))
+				userTrans.add(tr);
+		return userTrans;
 	}
 	
 	public void storeUserToRepository(String firstname, String lastname, String email, String telephone)
@@ -100,7 +135,7 @@ public class DbSaver
 		//generate user's card
 		Card userCard = Card.builder()
 							.number(cardNumber)
-							.expireDate(expDate)
+							.expire_date(expDate)
 							.cvv(cvv)
 							.user(createdUser)
 							.build();
@@ -138,6 +173,18 @@ public class DbSaver
 												 .build();
 		
 		bankAccountRepo.save(userBankAccount);
+	}
+	
+	public void storeTransactionToRepository(String date, Iban iban, int amount)
+	{
+		//transaction id is created automatically
+		Transaction userTransaction = Transaction.builder()
+												 .trans_date(date)
+												 .iban(iban)
+												 .amount(amount)
+												 .build();
+		
+		transactionsRepo.save(userTransaction);
 	}
 	
 }
