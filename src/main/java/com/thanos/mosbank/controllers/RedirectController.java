@@ -138,6 +138,7 @@ public class RedirectController
 		}
 		else
 		{
+			viewEditor.putInfoToTheMainPageTemplate(returnedValue, model);
 			return "html/mainpage";
 		}
 	}

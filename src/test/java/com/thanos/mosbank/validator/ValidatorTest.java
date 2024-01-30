@@ -33,7 +33,7 @@ class ValidatorTest
 		String thisUsernameExists = "thanos";
 				
 		dbSaver.storeCredentialsToRepository("thanos", "changeme", null);;
-		when(dbSaver.fetchCredentialsFromDb("thanos")).thenReturn(Optional.of(c1).get());
+		when(dbSaver.fetchSingleCredentialsFromDb("thanos")).thenReturn(Optional.of(c1).get());
 	
 		assertTrue(testValidator.usernameAlreadyExists(thisUsernameExists));
 	}
@@ -45,7 +45,7 @@ class ValidatorTest
 		String thisUsernameDoesNotExist = "makis";
 				
 		dbSaver.storeCredentialsToRepository("thanos", "changeme", null);;
-		when(dbSaver.fetchCredentialsFromDb("makis")).thenThrow(NoSuchElementException.class);
+		when(dbSaver.fetchSingleCredentialsFromDb("makis")).thenThrow(NoSuchElementException.class);
 	
 		//the repo will throw an exception and usernameAlreadyExists method will catch it and return false as the result
 		assertFalse(testValidator.usernameAlreadyExists(thisUsernameDoesNotExist));

@@ -8,23 +8,38 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@Getter
+@Builder
 @Entity
 @Table(name = "transactions")
 public class Transaction 
 {
+	/*
+	 * Spring Data Jpa uses underscore notation if an attribute
+	 * is bigger than 1 word. So here in my attributes I use this notation.
+	 * Keep in mind that in my method parameters I use lowerCamelcase.
+	 */
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
-	private String date;
+	private int trans_id;
+	private String trans_date;
 	@OneToOne
-	@JoinColumn(name = "useriban", referencedColumnName = "iban")
+	@JoinColumn(name = "user_iban", referencedColumnName = "iban")
 	private Iban iban;
 	private int amount;
+	
+	public boolean hasIban(Iban iban)
+	{
+		return this.iban.hasIban(iban);
+	}
 	
 }
