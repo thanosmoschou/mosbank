@@ -39,6 +39,21 @@ public class BankAccount
 		return this.user.equals(aUser);
 	}
 	
+	public void increaseBalance(int amount)
+	{
+		this.balance += amount;
+	}
+	
+	public void reduceBalance(int amount)
+	{
+		this.balance -= amount;
+	}
+	
+	public boolean hasEnoughBalance(int amount)
+	{
+		return (this.balance - amount) >= 0;
+	}
+	
 	public int getBalance()
 	{
 		return this.balance;

@@ -37,4 +37,9 @@ public class Iban
 	{
 		return this.iban.equals(o.iban);
 	}
+	
+	public String getIban()
+	{
+		return this.iban;
+	}
 }

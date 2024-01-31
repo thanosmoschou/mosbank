@@ -17,14 +17,15 @@ import com.thanos.mosbank.db.DbSaver;
 import com.thanos.mosbank.model.Credentials;
 import com.thanos.mosbank.repos.CredentialsRepository;
 import com.thanos.mosbank.repos.UserRepository;
+import com.thanos.mosbank.validators.AccountValidator;
 
 @ExtendWith(MockitoExtension.class)
-class ValidatorTest 
+class AccountValidatorTest 
 {
 	@Mock
 	private DbSaver dbSaver;
 	@InjectMocks
-	private Validator testValidator; //Spring injects a bean
+	private AccountValidator testValidator; //Spring injects a bean
 	
 	@Test
 	void thisUsernameExistsTest()

@@ -1,5 +1,5 @@
 
-package com.thanos.mosbank.validator;
+package com.thanos.mosbank.validators;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -17,20 +17,20 @@ import com.thanos.mosbank.repos.CredentialsRepository;
 import com.thanos.mosbank.repos.UserRepository;
 
 //Singleton design pattern
-public class Validator 
+public class AccountValidator 
 {
-	private static Validator instance = null;
+	private static AccountValidator instance = null;
 	@Autowired
 	private DbSaver dbSaver;
 	
-	private Validator()
+	private AccountValidator()
 	{
 	}
 	
-	public static Validator getInstance()
+	public static AccountValidator getInstance()
 	{
 		if(instance == null)
-			instance = new Validator();
+			instance = new AccountValidator();
 		return instance;
 	}
 	

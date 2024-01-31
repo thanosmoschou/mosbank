@@ -18,18 +18,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.thanos.mosbank.alerts.Alerts;
 import com.thanos.mosbank.editView.ViewEditor;
 import com.thanos.mosbank.errorCodes.StatusCode;
-import com.thanos.mosbank.validator.Validator;
+import com.thanos.mosbank.validators.AccountValidator;
+import com.thanos.mosbank.validators.TransactionValidator;
 
 @Controller
 public class RedirectController 
 {
-	private Validator validator;
+	private AccountValidator accountValidator;
+	private TransactionValidator transactionValidator;
 	private ViewEditor viewEditor;
 	
-	public RedirectController(Validator validator, ViewEditor viewEditor)
+	private int userId;
+	
+	public RedirectController(AccountValidator accountValidator, TransactionValidator transactionValidator, ViewEditor viewEditor)
 	{
-		this.validator = validator;
+		this.accountValidator = accountValidator;
+		this.transactionValidator = transactionValidator;
 		this.viewEditor = viewEditor;
+		this.userId = 0;
 	}
 	
 	@RequestMapping(path = "/")
@@ -50,7 +56,6 @@ public class RedirectController
 		return "html/login"; 
 	}
 	
-	
 	@RequestMapping(path = "/signup")
 	public String showSignupPage()
 	{
@@ -58,14 +63,17 @@ public class RedirectController
 	}
 	
 	@RequestMapping(path = "/transaction/{userid}")
-	public String showNewTransactionPage(@PathVariable String userid)
+	public String showNewTransactionPage(@PathVariable String userid, Model model)
 	{
+		this.userId = Integer.parseInt(userid);
+		viewEditor.putInfoToNewTransactionPageTemplate(userId, model);
 		return "html/newtransaction";
 	}
 	
 	@RequestMapping(path = "/account/{userid}")
 	public String showMyAccountPage(@PathVariable String userid)
 	{
+		this.userId = Integer.parseInt(userid);
 		return "html/myaccount";
 	}
 	
@@ -77,26 +85,25 @@ public class RedirectController
 		String username = values.get("username").get(0);
 		String password = values.get("password").get(0);
 		
+		//TESTING PURPOSES
+		this.userId = 3;
+		return goToMainPage(model);
+		
 		//the return value is the user's id if user exists, otherwise it contains an error code
-		int returnedValue = validator.login(username, password);
+		
+		/*int returnedValue = accountValidator.login(username, password);
 		
 		if(returnedValue == StatusCode.WRONG_USERNAME)
-		{
-			model.addAttribute("errorMessage", Alerts.WRONG_USERNAME_MESSAGE);
-			model.addAttribute("backUrl", "login"); //this creates a hyperlink to go back to login page
-			return "html/somethingwentwrong";
-		}
+			return goToSomethingWentWrongPage(Alerts.WRONG_USERNAME_MESSAGE, "login", model);
 		else if(returnedValue == StatusCode.WRONG_PASSWORD)
-		{
-			model.addAttribute("errorMessage", Alerts.WRONG_PASSWORD_MESSAGE);
-			model.addAttribute("backUrl", "login");
-			return "html/somethingwentwrong";
-		}
+			return goToSomethingWentWrongPage(Alerts.WRONG_PASSWORD_MESSAGE, "login", model);
 		else
 		{
-			viewEditor.putInfoToTheMainPageTemplate(returnedValue, model);
-			return "html/mainpage";
+			this.userId = returnedValue;
+			return goToMainPage(model);
 		}
+		*/
+		
 	}
 	
 	@RequestMapping(path = "/validateSignUp", method = RequestMethod.POST)
@@ -110,38 +117,67 @@ public class RedirectController
 		String telephone = values.get("telephone").get(0);
 		
 		//the return value is the user's id if user exists, otherwise it contains an error code
-		int returnedValue = validator.signUp(firstname, lastname, username, password, email, telephone);
+		int returnedValue = accountValidator.signUp(firstname, lastname, username, password, email, telephone);
 		
 		if(returnedValue == StatusCode.USERNAME_ALREADY_EXISTS)
-		{
-			model.addAttribute("errorMessage", Alerts.USERNAME_ALREADY_EXISTS_MESSAGE);
-			model.addAttribute("backUrl", "signup");
-			return "html/somethingwentwrong";
-		}
+			return goToSomethingWentWrongPage(Alerts.USERNAME_ALREADY_EXISTS_MESSAGE, "signup", model);
 		else if(returnedValue == StatusCode.INVALID_PASSWORD)
-		{
-			model.addAttribute("errorMessage", Alerts.PASSWORD_DOES_NOT_MEET_CRITERIA_MESSAGE);
-			model.addAttribute("backUrl", "signup");
-			return "html/somethingwentwrong";
-		}
+			return goToSomethingWentWrongPage(Alerts.PASSWORD_DOES_NOT_MEET_CRITERIA_MESSAGE, "signup", model);
 		else if(returnedValue == StatusCode.INVALID_EMAIL)
-		{
-			model.addAttribute("errorMessage", Alerts.INVALID_EMAIL_MESSAGE);
-			model.addAttribute("backUrl", "signup");
-			return "html/somethingwentwrong";
-		}
+			return goToSomethingWentWrongPage(Alerts.INVALID_EMAIL_MESSAGE, "signup", model);
 		else if(returnedValue == StatusCode.INVALID_PHONE_NUMBER)
-		{
-			model.addAttribute("errorMessage", Alerts.INVALID_PHONE_NUMBER_MESSAGE);
-			model.addAttribute("backUrl", "signup");
-			return "html/somethingwentwrong";
-		}
+			return goToSomethingWentWrongPage(Alerts.INVALID_PHONE_NUMBER_MESSAGE, "signup", model);
 		else
 		{
-			viewEditor.putInfoToTheMainPageTemplate(returnedValue, model);
-			return "html/mainpage";
+			this.userId = returnedValue;
+			return goToMainPage(model);
+		}
+	}	
+	
+	@RequestMapping(path = "/validateNewTransaction", method = RequestMethod.POST)
+	public String newTransaction(@RequestBody MultiValueMap<String, String> values, Model model)
+	{
+		//Validate the transaction
+		String senderIban = values.get("sIban").get(0);
+		String receiverIban = values.get("rIban").get(0);
+		int amount = Integer.parseInt(values.get("sAmount").get(0));
+		
+		int transactionStatusCode = transactionValidator.makeTransaction(senderIban, receiverIban, amount);
+		
+		if(transactionStatusCode == StatusCode.INVALID_AMOUNT_FOR_TRANSACTION)
+			return goToSomethingWentWrongPage(Alerts.INVALID_AMOUNT_FOR_TRANSACTION_MESSAGE, "transaction/" + this.userId, model);	
+		else if(transactionStatusCode == StatusCode.INVALID_RECEIVER_IBAN)
+			return goToSomethingWentWrongPage(Alerts.INVALID_RECEIVER_IBAN_MESSAGE, "transaction/" + this.userId, model);	
+		else if(transactionStatusCode == StatusCode.NOT_ENOUGH_BALANCE)
+			return goToSomethingWentWrongPage(Alerts.NOT_ENOUGH_BALANCE_MESSAGE, "transaction/" + this.userId, model);	
+		else
+		{
+			model.addAttribute("statusMessage", Alerts.SUCCESSFUL_TRANSACTION_MESSAGE);
+			model.addAttribute("mainPageUrl", "mainpage");
+			return "html/successfultransaction";
 		}
 	}
 	
+	@RequestMapping(path = "/mainpage")
+	public String goToMainPage(Model model)
+	{
+		if(this.userId != 0)
+		{
+			viewEditor.putInfoToTheMainPageTemplate(this.userId, model);
+			return "html/mainpage";
+		}
+		else
+		{
+			model.addAttribute("errorMessage", Alerts.USER_DID_NOT_LOGGED_IN_MESSAGE);
+			model.addAttribute("backUrl", "login"); //this creates a hyperlink to go back to login
+			return "html/somethingwentwrong";
+		}
+	}
 	
+	private String goToSomethingWentWrongPage(String errorMessage, String backUrl, Model model)
+	{
+		model.addAttribute("errorMessage", errorMessage);
+		model.addAttribute("backUrl", backUrl); 
+		return "html/somethingwentwrong";
+	}
 }

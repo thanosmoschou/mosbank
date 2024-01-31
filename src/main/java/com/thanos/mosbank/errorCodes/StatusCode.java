@@ -8,4 +8,9 @@ public class StatusCode
 	public static final int INVALID_PASSWORD = -4;
 	public static final int INVALID_EMAIL = -3;
 	public static final int INVALID_PHONE_NUMBER = -2;
+	public static final int INVALID_RECEIVER_IBAN = -20;
+	public static final int NOT_ENOUGH_BALANCE = -30;
+	public static final int SUCCESSFUL_TRANSACTION = 100;
+	public static final int INVALID_AMOUNT_FOR_TRANSACTION = -400;
+	//public static final int USER_DID_NOT_LOGGED_IN = -1000;
 }
