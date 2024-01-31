@@ -17,7 +17,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.thanos.mosbank.generators.CardCredentialsGenerator;
-import com.thanos.mosbank.validator.Validator;
+import com.thanos.mosbank.validators.AccountValidator;
 
 @SpringBootApplication
 public class MosbankApplication 

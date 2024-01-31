@@ -45,6 +45,15 @@ public class ViewEditor
 		model.addAttribute("firstname", firstname);
 		model.addAttribute("balance", balance);
 		model.addAttribute("usertransactions", transactions);
+	}
+	
+	public void putInfoToNewTransactionPageTemplate(int userId, Model model)
+	{
+		User user = dbSaver.fetchUserFromRepository(userId);
+		Iban userIban = dbSaver.fetchIbanFromDbViaUser(user);
+		String ibanAsAString = userIban.getIban();
 		
+		model.addAttribute("user_id", userId);
+		model.addAttribute("senderIban", ibanAsAString);
 	}
 }

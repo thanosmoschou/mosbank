@@ -18,6 +18,9 @@ import com.thanos.mosbank.repos.IbanRepository;
 import com.thanos.mosbank.repos.TransactionRepository;
 import com.thanos.mosbank.repos.UserRepository;
 
+
+//MAKE METHOD TO STORE THE UPDATED BALANCE FOR AN ACCOUNT
+
 //Singleton Design Pattern
 public class DbSaver 
 {
@@ -55,6 +58,18 @@ public class DbSaver
 	public List<User> fetchAllUsersFromRepository()
 	{
 		return usersRepo.findAll();
+	}
+	
+	//test for this
+	public User fetchUserFromRepositorySearchByIban(String iban)
+	{
+		Iban userIban = fetchIbanFromDb(iban);
+		List<User> users = fetchAllUsersFromRepository();
+		
+		for(User u : users)
+			if(userIban.hasUser(u))
+				return u;
+		return null;
 	}
 	
 	public Card fetchCardFromDb(String cardNumber)
@@ -101,7 +116,16 @@ public class DbSaver
 		return null;
 	}
 	
-	//The same here
+	//test for this
+	public BankAccount fetchBankAccountFromDbSearchByIban(String iban)
+	{
+		User user = fetchUserFromRepositorySearchByIban(iban);
+		BankAccount userBankAccount = fetchBankAccountFromDbViaUser(user);
+		
+		return userBankAccount;
+	}
+	
+	//The same explanation here
 	public Transaction fetchSingleTransactionFromDb(int transId)
 	{
 		return transactionsRepo.findById(transId).get();

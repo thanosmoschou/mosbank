@@ -6,6 +6,37 @@
     <title>New Transaction</title>
 </head>
 <body>
-    <p>Transaction Page Under Construction</p>
+    <header>
+        <h1 id="mosbankLabel">mosbank</h1>
+        <ul id="actionsList">
+            <li><a th:href="@{'/account/' + ${user_id}}">My Account</a></li>
+            <li><a th:href="@{/}">Logout</a></li>
+        </ul>
+    </header>
+
+    <main>
+        <div class="newTransactionArea">
+            <p id="transactionPromptLabel">Let's make a new transaction!</p>
+            <form class="newTransactionForm" method="post" action="#" th:action="@{/validateNewTransaction}"><br>
+
+                <label id="senderIbanLabel" for="sendIban">Your IBAN:</label><br>
+                <input type="text" id="sendIban" name="sIban" th:value="${senderIban}" readonly><br>
+
+                <label id="amountLabel" for="amount">Enter an amount:</label><br>
+                <input type="text" id="amount" name="sAmount" required><br>
+
+                <label id="receiverIbanLabel" for="receiveIban">Receiver's IBAN:</label><br>
+                <input type="text" id="receiveIban" name="rIban" required><br>
+
+                <input id="sendMoneyButton" type="submit" value="Send">
+                <button id="cancelButton" th:onclick="window.location='/mainpage'">Cancel</button>
+
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <h5 id="author">v1.0 by Thanos Moschou, 2023 &copy;</h5>
+    </footer>
 </body>
 </html>
