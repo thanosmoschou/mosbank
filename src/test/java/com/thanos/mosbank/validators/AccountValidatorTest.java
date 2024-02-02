@@ -1,4 +1,4 @@
-package com.thanos.mosbank.validator;
+package com.thanos.mosbank.validators;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

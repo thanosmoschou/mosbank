@@ -1,11 +1,15 @@
 package com.thanos.mosbank.validators;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.thanos.mosbank.db.DbSaver;
 import com.thanos.mosbank.errorCodes.StatusCode;
 import com.thanos.mosbank.model.BankAccount;
 import com.thanos.mosbank.model.Iban;
+import com.thanos.mosbank.model.Transaction;
 
 //TEST FOR THIS
 
@@ -45,7 +49,7 @@ public class TransactionValidator
 	 * -400: Invalid transaction amount (negative or 0)
 	 * 100: Transaction is successful.
 	 */
-	public int makeTransaction(String sIban, String rIban, int sAmount)
+	public int makeTransaction(String sIban, String rIban, int sAmount, String description)
 	{
 		if(sAmount <= 0)
 			return StatusCode.INVALID_AMOUNT_FOR_TRANSACTION;
@@ -62,6 +66,36 @@ public class TransactionValidator
 		BankAccount rBankAccount = dbSaver.fetchBankAccountFromDbSearchByIban(rIban);
 		rBankAccount.increaseBalance(sAmount);
 		
+		//update bank accounts
+		dbSaver.storeBankAccountToRepository(sBankAccount);
+		dbSaver.storeBankAccountToRepository(rBankAccount);
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDateTime currentDate = LocalDateTime.now();
+		String formattedDate = dtf.format(currentDate);
+		
+		//Transaction object need Iban object as attribute
+		Iban senderIbanObject = dbSaver.fetchIbanFromDb(sIban);
+		Iban receiverIbanObject = dbSaver.fetchIbanFromDb(rIban);
+		
+		//Let's create a transaction for each user
+		Transaction senderTransaction = Transaction.builder()
+											       .trans_date(formattedDate)
+											       .iban(senderIbanObject)
+											       .amount(sAmount)
+											       .description_message(description)
+											       .build();
+		
+		Transaction receiverTransaction = Transaction.builder()
+													 .trans_date(formattedDate)
+													 .iban(receiverIbanObject)
+													 .amount(sAmount)
+													 .description_message(description)
+													 .build();
+		
+		dbSaver.storeTransactionToRepository(senderTransaction);
+		dbSaver.storeTransactionToRepository(receiverTransaction);
+											       
 		return StatusCode.SUCCESSFUL_TRANSACTION;
 	}
 	

@@ -25,11 +25,13 @@
                 <td>Transaction Id</td>
                 <td>Date</td>
                 <td>Amount</td>
+                <td>Description</td>
             </tr>
             <tr th:each="transaction : ${usertransactions}">
                 <td th:text="${transaction.trans_id}"></td>
                 <td th:text="${transaction.trans_date}"></td>
                 <td th:text="${transaction.amount}"></td>
+                <td th:text="${transaction.description_message}"></td>
             </tr>
         </table>
 

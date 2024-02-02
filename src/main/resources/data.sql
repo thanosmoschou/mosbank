@@ -21,4 +21,4 @@ insert into bankaccounts values (10, 1000, 1),
                                 (20, 3000, 2),
                                 (30, 30000, 3);
 
-insert into transactions (trans_id, trans_date, user_iban, amount) values (1, "30/01/2024", "GR916728324431088128", 1000);
+insert into transactions values (1, "30/01/2024", "GR916728324431088128", 1000, "Receive Payroll");

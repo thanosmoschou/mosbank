@@ -36,6 +36,7 @@ public class Transaction
 	@JoinColumn(name = "user_iban", referencedColumnName = "iban")
 	private Iban iban;
 	private int amount;
+	private String description_message;
 	
 	public boolean hasIban(Iban iban)
 	{
