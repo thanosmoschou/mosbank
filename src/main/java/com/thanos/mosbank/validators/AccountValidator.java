@@ -131,7 +131,7 @@ public class AccountValidator
 		dbSaver.storeCardToRepository(generatedCardNumber, expDate, cvv, createdUser);
 		dbSaver.storeCredentialsToRepository(username, password, createdUser);
 		dbSaver.storeIbanToRepository(ibanNumber, createdUser);
-		dbSaver.storeBankAccountToRepository(createdUser);
+		dbSaver.storeBankAccountToRepositoryForUser(createdUser);
 		
 		return createdUser.fetchUserId();
 	}

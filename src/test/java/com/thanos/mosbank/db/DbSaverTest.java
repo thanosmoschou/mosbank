@@ -75,6 +75,29 @@ class DbSaverTest
 	}
 	
 	@Test
+	void testIfUserIsSavedPassTheUserObject()
+	{
+		testDbSaver.storeUserToRepository(createdUser);
+		
+		when(userRepo.findById(1)).thenReturn(Optional.of(createdUser));
+		
+		User ret = testDbSaver.fetchUserFromRepository(1);
+		assertEquals(createdUser, ret);
+	}
+	
+	@Test
+	void testIfUserIsSavedPassTheUserObjectAndSearchByIbanString()
+	{
+		testDbSaver.storeUserToRepository(createdUser);
+		
+		when(ibanRepo.findById("GR788965412365897898")).thenReturn(Optional.of(userIban));
+		when(userRepo.findAll()).thenReturn(List.of(createdUser));
+		
+		User ret = testDbSaver.fetchUserFromRepositorySearchByIban("GR788965412365897898");
+		assertEquals(createdUser, ret);
+	}
+	
+	@Test
 	void testIfCredentialsAreSaved()
 	{
 		Credentials userCred = Credentials.builder()
@@ -84,6 +107,23 @@ class DbSaverTest
 										  .build();
 		
 		testDbSaver.storeCredentialsToRepository("thanos", "changeme", createdUser);
+		
+		when(credRepo.findById("thanos")).thenReturn(Optional.of(userCred));
+		
+		Credentials ret = testDbSaver.fetchSingleCredentialsFromDb("thanos");
+		assertEquals(userCred, ret);
+	}
+	
+	@Test
+	void testIfCredentialsAreSavedPassTheCredentialsObject()
+	{
+		Credentials userCred = Credentials.builder()
+										  .username("thanos")
+										  .password("changeme")
+										  .user(createdUser)
+										  .build();
+		
+		testDbSaver.storeCredentialsToRepository(userCred);
 		
 		when(credRepo.findById("thanos")).thenReturn(Optional.of(userCred));
 		
@@ -109,9 +149,37 @@ class DbSaverTest
 	}
 	
 	@Test
+	void testIfCardIsSavedPassTheCardObject()
+	{
+		Card userCard = Card.builder()
+							.number("4556383361319387")
+							.cvv("808")
+							.expire_date("08/25")
+							.build();
+
+		testDbSaver.storeCardToRepository(userCard);
+
+		when(cardRepo.findById("4556383361319387")).thenReturn(Optional.of(userCard));
+		
+		Card ret = testDbSaver.fetchCardFromDb("4556383361319387");
+		assertEquals(userCard, ret);
+	}
+	
+	@Test
 	void testIfIbanIsSavedSearchByIbanString()
 	{
 		testDbSaver.storeIbanToRepository("GR788965412365897898", createdUser);
+		
+		when(ibanRepo.findById("GR788965412365897898")).thenReturn(Optional.of(userIban));
+		
+		Iban ret = testDbSaver.fetchIbanFromDb("GR788965412365897898");
+		assertEquals(userIban, ret);
+	}
+	
+	@Test
+	void testIfIbanIsSavedPassTheIbanObjectAndSearchByIbanString()
+	{
+		testDbSaver.storeIbanToRepository(userIban);
 		
 		when(ibanRepo.findById("GR788965412365897898")).thenReturn(Optional.of(userIban));
 		
@@ -131,6 +199,17 @@ class DbSaverTest
 	}
 	
 	@Test
+	void testIfIbanIsSavedPassTheIbanObjectAndSearchByUserObject()
+	{
+		testDbSaver.storeIbanToRepository(userIban);
+		
+		when(ibanRepo.findAll()).thenReturn(List.of(userIban));
+		
+		Iban ret = testDbSaver.fetchIbanFromDbViaUser(createdUser);
+		assertEquals(userIban, ret);
+	}
+	
+	@Test
 	void testIfBankAccountIsSavedSearchByBankAccountId()
 	{
 		BankAccount userBankAccount = BankAccount.builder()
@@ -139,8 +218,26 @@ class DbSaverTest
 												 .user(createdUser)
 												 .build();
 		
-		testDbSaver.storeBankAccountToRepository(createdUser);
+		//pass the user and create bank account for him
+		testDbSaver.storeBankAccountToRepositoryForUser(createdUser);
 		
+		when(bankAccountRepo.findById(30)).thenReturn(Optional.of(userBankAccount));
+		
+		BankAccount ret = testDbSaver.fetchBankAccountFromDb(30);
+		assertEquals(userBankAccount, ret);
+	}
+	
+	@Test
+	void testIfBankAccountIsSavedPassTheBankAccountObjectAndSearchByBankAccountId()
+	{
+		BankAccount userBankAccount = BankAccount.builder()
+												 .account_id(30)
+												 .balance(0)
+												 .user(createdUser)
+												 .build();
+		
+		testDbSaver.storeBankAccountToRepository(userBankAccount);
+
 		when(bankAccountRepo.findById(30)).thenReturn(Optional.of(userBankAccount));
 		
 		BankAccount ret = testDbSaver.fetchBankAccountFromDb(30);
@@ -157,11 +254,49 @@ class DbSaverTest
 												 .user(createdUser)
 												 .build();
 
-		testDbSaver.storeBankAccountToRepository(createdUser);
+		testDbSaver.storeBankAccountToRepositoryForUser(createdUser);
 		
 		when(bankAccountRepo.findAll()).thenReturn(List.of(userBankAccount));
 		
 		BankAccount ret = testDbSaver.fetchBankAccountFromDbViaUser(createdUser);
+		assertEquals(userBankAccount, ret);
+	}
+	
+	@Test
+	void testIfBankAccountIsSavedPassTheBankAccountObjectAndSearchByUser()
+	{
+		//in this test I search for a bank account via user
+		BankAccount userBankAccount = BankAccount.builder()
+												 .account_id(30)
+												 .balance(0)
+												 .user(createdUser)
+												 .build();
+
+		testDbSaver.storeBankAccountToRepository(userBankAccount);
+		
+		when(bankAccountRepo.findAll()).thenReturn(List.of(userBankAccount));
+		
+		BankAccount ret = testDbSaver.fetchBankAccountFromDbViaUser(createdUser);
+		assertEquals(userBankAccount, ret);
+	}
+	
+	@Test
+	void testIfBankAccountIsSavedPassTheBankAccountObjectAndSearchByIbanObject()
+	{
+		//in this test I search for a bank account via user
+		BankAccount userBankAccount = BankAccount.builder()
+												 .account_id(30)
+												 .balance(0)
+												 .user(createdUser)
+												 .build();
+
+		testDbSaver.storeBankAccountToRepository(userBankAccount);
+		
+		when(ibanRepo.findById("GR788965412365897898")).thenReturn(Optional.of(userIban));
+		when(userRepo.findAll()).thenReturn(List.of(createdUser));
+		when(bankAccountRepo.findAll()).thenReturn(List.of(userBankAccount));
+		
+		BankAccount ret = testDbSaver.fetchBankAccountFromDbSearchByIban("GR788965412365897898");
 		assertEquals(userBankAccount, ret);
 	}
 
@@ -173,9 +308,28 @@ class DbSaverTest
 										   .trans_date("01/01/2024")
 										   .iban(userIban)
 										   .amount(1000)
+										   .description_message("Receive")
 										   .build();
 		
-		testDbSaver.storeTransactionToRepository("01/01/2024", userIban, 1000);
+		testDbSaver.storeTransactionToRepository("01/01/2024", userIban, 1000, "Receive");
+		when(transactionsRepo.findById(10)).thenReturn(Optional.of(fakeTrans));
+		
+		Transaction retTrans = testDbSaver.fetchSingleTransactionFromDb(10);
+		assertEquals(fakeTrans, retTrans);
+	}
+	
+	@Test
+	void testIfTransactionIsSavedPassTheTransactionObjectAndSearchByTransactionId()
+	{
+		Transaction fakeTrans = Transaction.builder()
+										   .trans_id(10)
+										   .trans_date("01/01/2024")
+										   .iban(userIban)
+										   .amount(1000)
+										   .description_message("Receive")
+										   .build();
+						
+		testDbSaver.storeTransactionToRepository(fakeTrans);
 		when(transactionsRepo.findById(10)).thenReturn(Optional.of(fakeTrans));
 		
 		Transaction retTrans = testDbSaver.fetchSingleTransactionFromDb(10);
@@ -190,9 +344,28 @@ class DbSaverTest
 										   .trans_date("01/01/2024")
 										   .iban(userIban)
 										   .amount(1000)
+										   .description_message("Receive")
 										   .build();
 		
-		testDbSaver.storeTransactionToRepository("01/01/2024", userIban, 1000);
+		testDbSaver.storeTransactionToRepository("01/01/2024", userIban, 1000, "Receive");
+		when(transactionsRepo.findAll()).thenReturn(List.of(fakeTrans));
+		
+		List<Transaction> retTrans = testDbSaver.fetchAllUserTransactionsViaIban(userIban);
+		assertEquals(List.of(fakeTrans), retTrans);
+	}
+	
+	@Test
+	void testIfTransactionIsSavedPassTheTransactionObjectAndSearchAllUserTransactionsByIban()
+	{
+		Transaction fakeTrans = Transaction.builder()
+										   .trans_id(10)
+										   .trans_date("01/01/2024")
+										   .iban(userIban)
+										   .amount(1000)
+										   .description_message("Receive")
+										   .build();
+
+		testDbSaver.storeTransactionToRepository(fakeTrans);
 		when(transactionsRepo.findAll()).thenReturn(List.of(fakeTrans));
 		
 		List<Transaction> retTrans = testDbSaver.fetchAllUserTransactionsViaIban(userIban);

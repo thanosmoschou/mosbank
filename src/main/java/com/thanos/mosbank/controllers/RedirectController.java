@@ -141,8 +141,9 @@ public class RedirectController
 		String senderIban = values.get("sIban").get(0);
 		String receiverIban = values.get("rIban").get(0);
 		int amount = Integer.parseInt(values.get("sAmount").get(0));
+		String description = values.get("description").get(0);
 		
-		int transactionStatusCode = transactionValidator.makeTransaction(senderIban, receiverIban, amount);
+		int transactionStatusCode = transactionValidator.makeTransaction(senderIban, receiverIban, amount, description);
 		
 		if(transactionStatusCode == StatusCode.INVALID_AMOUNT_FOR_TRANSACTION)
 			return goToSomethingWentWrongPage(Alerts.INVALID_AMOUNT_FOR_TRANSACTION_MESSAGE, "transaction/" + this.userId, model);	

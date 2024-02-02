@@ -60,7 +60,6 @@ public class DbSaver
 		return usersRepo.findAll();
 	}
 	
-	//test for this
 	public User fetchUserFromRepositorySearchByIban(String iban)
 	{
 		Iban userIban = fetchIbanFromDb(iban);
@@ -116,7 +115,6 @@ public class DbSaver
 		return null;
 	}
 	
-	//test for this
 	public BankAccount fetchBankAccountFromDbSearchByIban(String iban)
 	{
 		User user = fetchUserFromRepositorySearchByIban(iban);
@@ -154,6 +152,23 @@ public class DbSaver
 		usersRepo.save(createdUser);
 	}
 	
+	/*
+	 * For each entity I provide 2 methods that do the same. I overloaded them.
+	 * The one method gets the fields and creates the object internally and
+	 * then stores it to the db.
+	 * The other one gets the object and stores it straight away.
+	 * 
+	 * I use the one that is more convenient in each case.
+	 */
+	
+	//Method overloading
+	public void storeUserToRepository(User user)
+	{
+		//Note that the save() method will perform an update if the 
+		//entity already exists in the database, and an insert if it does not.
+		usersRepo.save(user);
+	}
+	
 	public void storeCardToRepository(String cardNumber, String expDate, String cvv, User createdUser)
 	{
 		//generate user's card
@@ -167,6 +182,11 @@ public class DbSaver
 		cardsRepo.save(userCard);
 	}
 	
+	public void storeCardToRepository(Card card)
+	{
+		cardsRepo.save(card);
+	}
+	
 	public void storeCredentialsToRepository(String username, String password, User createdUser)
 	{
 		Credentials userCred = Credentials.builder()
@@ -176,6 +196,11 @@ public class DbSaver
 										  .build();
 
 		credentialsRepo.save(userCred);
+	}
+	
+	public void storeCredentialsToRepository(Credentials credentials)
+	{
+		credentialsRepo.save(credentials);
 	}
 	
 	public void storeIbanToRepository(String ibanNumber, User createdUser)
@@ -188,7 +213,12 @@ public class DbSaver
 		ibanRepo.save(userIban);
 	}
 	
-	public void storeBankAccountToRepository(User createdUser)
+	public void storeIbanToRepository(Iban iban)
+	{
+		ibanRepo.save(iban);
+	}
+	
+	public void storeBankAccountToRepositoryForUser(User createdUser)
 	{
 		//account id is created automatically
 		BankAccount userBankAccount = BankAccount.builder()
@@ -199,16 +229,27 @@ public class DbSaver
 		bankAccountRepo.save(userBankAccount);
 	}
 	
-	public void storeTransactionToRepository(String date, Iban iban, int amount)
+	public void storeBankAccountToRepository(BankAccount bankAccount)
+	{
+		bankAccountRepo.save(bankAccount);
+	}
+	
+	public void storeTransactionToRepository(String date, Iban iban, int amount, String description)
 	{
 		//transaction id is created automatically
 		Transaction userTransaction = Transaction.builder()
 												 .trans_date(date)
 												 .iban(iban)
 												 .amount(amount)
+												 .description_message(description)
 												 .build();
 		
 		transactionsRepo.save(userTransaction);
+	}
+	
+	public void storeTransactionToRepository(Transaction transaction)
+	{
+		transactionsRepo.save(transaction);
 	}
 	
 }

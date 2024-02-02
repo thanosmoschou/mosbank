@@ -46,5 +46,6 @@ create table transactions(
     trans_date varchar(10),
     user_iban varchar(40),
     amount int,
+    description_message varchar(60),
     foreign key(user_iban) references ibans(iban) on delete cascade
 );
