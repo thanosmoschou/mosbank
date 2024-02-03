@@ -60,10 +60,10 @@ public class TransactionValidator
 		if(!isBalanceEnough(sIban, sAmount))
 			return StatusCode.NOT_ENOUGH_BALANCE;
 		
-		BankAccount sBankAccount = dbSaver.fetchBankAccountFromDbSearchByIban(sIban);
+		BankAccount sBankAccount = dbSaver.fetchBankAccountFromRepositorySearchByIban(sIban);
 		sBankAccount.reduceBalance(sAmount);
 		
-		BankAccount rBankAccount = dbSaver.fetchBankAccountFromDbSearchByIban(rIban);
+		BankAccount rBankAccount = dbSaver.fetchBankAccountFromRepositorySearchByIban(rIban);
 		rBankAccount.increaseBalance(sAmount);
 		
 		//update bank accounts
@@ -75,8 +75,8 @@ public class TransactionValidator
 		String formattedDate = dtf.format(currentDate);
 		
 		//Transaction object need Iban object as attribute
-		Iban senderIbanObject = dbSaver.fetchIbanFromDb(sIban);
-		Iban receiverIbanObject = dbSaver.fetchIbanFromDb(rIban);
+		Iban senderIbanObject = dbSaver.fetchIbanFromRepository(sIban);
+		Iban receiverIbanObject = dbSaver.fetchIbanFromRepository(rIban);
 		
 		//Let's create a transaction for each user
 		Transaction senderTransaction = Transaction.builder()
@@ -101,14 +101,14 @@ public class TransactionValidator
 	
 	public boolean isReceiverIbanInDb(String rIban)
 	{
-		Iban receiver = dbSaver.fetchIbanFromDb(rIban);
+		Iban receiver = dbSaver.fetchIbanFromRepository(rIban);
 		
 		return receiver != null;
 	}
 	
 	public boolean isBalanceEnough(String sIban, int amount)
 	{
-		BankAccount sendersBankAccount = dbSaver.fetchBankAccountFromDbSearchByIban(sIban);
+		BankAccount sendersBankAccount = dbSaver.fetchBankAccountFromRepositorySearchByIban(sIban);
 		
 		return sendersBankAccount.hasEnoughBalance(amount);
 	}

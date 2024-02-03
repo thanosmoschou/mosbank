@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -39,6 +40,36 @@ public class Credentials
 	public int fetchUserId()
 	{
 		return user.fetchUserId();
+	}
+	
+	public boolean hasUsername(String aUsername)
+	{
+		return this.username.equals(aUsername);
+	}
+	
+	public boolean hasUser(User aUser)
+	{
+		return this.user.equals(aUser);
+	}
+	
+	public String getUsername()
+	{
+		return this.username;
+	}
+	
+	public String getPassword()
+	{
+		return this.password;
+	}
+	
+	public void setUsername(String aUsername)
+	{
+		this.username = aUsername;
+	}
+	
+	public void setPassword(String aPassword)
+	{
+		this.password = aPassword;
 	}
 	
 }

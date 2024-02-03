@@ -98,6 +98,24 @@ class DbSaverTest
 	}
 	
 	@Test
+	void testIfUserIsSavedPassUserObjectAndSearchByCredentialsObject()
+	{
+		Credentials userCred = Credentials.builder()
+										  .username("thanos")
+										  .password("changeme")
+										  .user(createdUser)
+										  .build();
+
+		testDbSaver.storeUserToRepository(createdUser);
+		
+		when(userRepo.findAll()).thenReturn(List.of(createdUser));
+		
+		User ret = testDbSaver.fetchUserFromRepositorySearchByCredentialsObject(userCred);
+		assertEquals(createdUser, ret);
+
+	}
+	
+	@Test
 	void testIfCredentialsAreSaved()
 	{
 		Credentials userCred = Credentials.builder()
@@ -110,7 +128,7 @@ class DbSaverTest
 		
 		when(credRepo.findById("thanos")).thenReturn(Optional.of(userCred));
 		
-		Credentials ret = testDbSaver.fetchSingleCredentialsFromDb("thanos");
+		Credentials ret = testDbSaver.fetchSingleCredentialsFromRepository("thanos");
 		assertEquals(userCred, ret);
 	}
 	
@@ -127,7 +145,24 @@ class DbSaverTest
 		
 		when(credRepo.findById("thanos")).thenReturn(Optional.of(userCred));
 		
-		Credentials ret = testDbSaver.fetchSingleCredentialsFromDb("thanos");
+		Credentials ret = testDbSaver.fetchSingleCredentialsFromRepository("thanos");
+		assertEquals(userCred, ret);
+	}
+	
+	@Test
+	void testIfCredentialsAreSavedPassTheCredentialsObjectAndSearchByPassingUserObject()
+	{
+		Credentials userCred = Credentials.builder()
+										  .username("thanos")
+										  .password("changeme")
+										  .user(createdUser)
+										  .build();
+
+		testDbSaver.storeCredentialsToRepository(userCred);
+		
+		when(credRepo.findAll()).thenReturn(List.of(userCred));
+		
+		Credentials ret = testDbSaver.fetchSingleCredentialsFromRepositoryPassUser(createdUser);
 		assertEquals(userCred, ret);
 	}
 	
@@ -144,7 +179,7 @@ class DbSaverTest
 		
 		when(cardRepo.findById("4556383361319387")).thenReturn(Optional.of(userCard));
 		
-		Card ret = testDbSaver.fetchCardFromDb("4556383361319387");
+		Card ret = testDbSaver.fetchCardFromRepository("4556383361319387");
 		assertEquals(userCard, ret);
 	}
 	
@@ -161,7 +196,7 @@ class DbSaverTest
 
 		when(cardRepo.findById("4556383361319387")).thenReturn(Optional.of(userCard));
 		
-		Card ret = testDbSaver.fetchCardFromDb("4556383361319387");
+		Card ret = testDbSaver.fetchCardFromRepository("4556383361319387");
 		assertEquals(userCard, ret);
 	}
 	
@@ -172,7 +207,7 @@ class DbSaverTest
 		
 		when(ibanRepo.findById("GR788965412365897898")).thenReturn(Optional.of(userIban));
 		
-		Iban ret = testDbSaver.fetchIbanFromDb("GR788965412365897898");
+		Iban ret = testDbSaver.fetchIbanFromRepository("GR788965412365897898");
 		assertEquals(userIban, ret);
 	}
 	
@@ -183,7 +218,7 @@ class DbSaverTest
 		
 		when(ibanRepo.findById("GR788965412365897898")).thenReturn(Optional.of(userIban));
 		
-		Iban ret = testDbSaver.fetchIbanFromDb("GR788965412365897898");
+		Iban ret = testDbSaver.fetchIbanFromRepository("GR788965412365897898");
 		assertEquals(userIban, ret);
 	}
 	
@@ -194,7 +229,7 @@ class DbSaverTest
 		
 		when(ibanRepo.findAll()).thenReturn(List.of(userIban));
 		
-		Iban ret = testDbSaver.fetchIbanFromDbViaUser(createdUser);
+		Iban ret = testDbSaver.fetchIbanFromRepositoryViaUser(createdUser);
 		assertEquals(userIban, ret);
 	}
 	
@@ -205,7 +240,7 @@ class DbSaverTest
 		
 		when(ibanRepo.findAll()).thenReturn(List.of(userIban));
 		
-		Iban ret = testDbSaver.fetchIbanFromDbViaUser(createdUser);
+		Iban ret = testDbSaver.fetchIbanFromRepositoryViaUser(createdUser);
 		assertEquals(userIban, ret);
 	}
 	
@@ -223,7 +258,7 @@ class DbSaverTest
 		
 		when(bankAccountRepo.findById(30)).thenReturn(Optional.of(userBankAccount));
 		
-		BankAccount ret = testDbSaver.fetchBankAccountFromDb(30);
+		BankAccount ret = testDbSaver.fetchBankAccountFromRepository(30);
 		assertEquals(userBankAccount, ret);
 	}
 	
@@ -240,7 +275,7 @@ class DbSaverTest
 
 		when(bankAccountRepo.findById(30)).thenReturn(Optional.of(userBankAccount));
 		
-		BankAccount ret = testDbSaver.fetchBankAccountFromDb(30);
+		BankAccount ret = testDbSaver.fetchBankAccountFromRepository(30);
 		assertEquals(userBankAccount, ret);
 	}
 	
@@ -258,7 +293,7 @@ class DbSaverTest
 		
 		when(bankAccountRepo.findAll()).thenReturn(List.of(userBankAccount));
 		
-		BankAccount ret = testDbSaver.fetchBankAccountFromDbViaUser(createdUser);
+		BankAccount ret = testDbSaver.fetchBankAccountFromRepositoryViaUser(createdUser);
 		assertEquals(userBankAccount, ret);
 	}
 	
@@ -276,7 +311,7 @@ class DbSaverTest
 		
 		when(bankAccountRepo.findAll()).thenReturn(List.of(userBankAccount));
 		
-		BankAccount ret = testDbSaver.fetchBankAccountFromDbViaUser(createdUser);
+		BankAccount ret = testDbSaver.fetchBankAccountFromRepositoryViaUser(createdUser);
 		assertEquals(userBankAccount, ret);
 	}
 	
@@ -296,7 +331,7 @@ class DbSaverTest
 		when(userRepo.findAll()).thenReturn(List.of(createdUser));
 		when(bankAccountRepo.findAll()).thenReturn(List.of(userBankAccount));
 		
-		BankAccount ret = testDbSaver.fetchBankAccountFromDbSearchByIban("GR788965412365897898");
+		BankAccount ret = testDbSaver.fetchBankAccountFromRepositorySearchByIban("GR788965412365897898");
 		assertEquals(userBankAccount, ret);
 	}
 
@@ -314,7 +349,7 @@ class DbSaverTest
 		testDbSaver.storeTransactionToRepository("01/01/2024", userIban, 1000, "Receive");
 		when(transactionsRepo.findById(10)).thenReturn(Optional.of(fakeTrans));
 		
-		Transaction retTrans = testDbSaver.fetchSingleTransactionFromDb(10);
+		Transaction retTrans = testDbSaver.fetchSingleTransactionFromRepository(10);
 		assertEquals(fakeTrans, retTrans);
 	}
 	
@@ -332,7 +367,7 @@ class DbSaverTest
 		testDbSaver.storeTransactionToRepository(fakeTrans);
 		when(transactionsRepo.findById(10)).thenReturn(Optional.of(fakeTrans));
 		
-		Transaction retTrans = testDbSaver.fetchSingleTransactionFromDb(10);
+		Transaction retTrans = testDbSaver.fetchSingleTransactionFromRepository(10);
 		assertEquals(fakeTrans, retTrans);
 	}
 	
@@ -371,4 +406,24 @@ class DbSaverTest
 		List<Transaction> retTrans = testDbSaver.fetchAllUserTransactionsViaIban(userIban);
 		assertEquals(List.of(fakeTrans), retTrans);
 	}
+	
+	
+	@Test
+	void testIfCredentialsObjectIsDeletedFromRepository()
+	{
+		Credentials userCred = Credentials.builder()
+										  .username("thanos")
+										  .password("changeme")
+										  .user(createdUser)
+										  .build();
+
+		testDbSaver.storeCredentialsToRepository(userCred);
+		testDbSaver.deleteCredentialsObjectFromRepository(userCred);
+		
+		when(credRepo.findAll()).thenReturn(List.of());
+		
+		Credentials ret = testDbSaver.fetchSingleCredentialsFromRepositoryPassUser(createdUser);
+		assertNotEquals(userCred, ret);
+	}
+	
 }

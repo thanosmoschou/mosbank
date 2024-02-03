@@ -16,4 +16,7 @@ public class Alerts
 	public static final String SUCCESSFUL_TRANSACTION_MESSAGE = "The transaction was successful. Return to the main page.";
 	public static final String INVALID_AMOUNT_FOR_TRANSACTION_MESSAGE = "Negative or 0 values are not allowed. Try again";
 	public static final String USER_DID_NOT_LOGGED_IN_MESSAGE = "You are not logged in. Log in and try again.";
+	public static final String NEW_PASSWORD_IS_INVALID_MESSAGE = "The new password is invalid. Make sure that you enter a valid password and the 2 password fields"
+			+ " contain the same value.";
+	public static final String SUCCESSFUL_ACCOUNT_EDIT_MESSAGE = "Your account details have successfully changed.";
 }

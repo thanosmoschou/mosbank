@@ -51,7 +51,7 @@ public class AccountValidator
 		
 		try
 		{
-			usersCredentials = dbSaver.fetchSingleCredentialsFromDb(username);
+			usersCredentials = dbSaver.fetchSingleCredentialsFromRepository(username);
 			
 			if(usersCredentials == null)
 				return StatusCode.WRONG_USERNAME;
@@ -136,13 +136,78 @@ public class AccountValidator
 		return createdUser.fetchUserId();
 	}
 	
+	/*
+	 * The following edit account method is pretty similar to sign up method.
+	 * It returns the same error codes except invalid password. It returns
+	 * a new error code for the password change.
+	 * 
+	 * I want the 2 inputs of the new password to contain the same value
+	 * and meet the password criteria as well.
+	 * 
+	 * NEW ERROR CODES:
+	 * -500: New password does not meet my criteria
+	 * 
+	 * Otherwise it returns an id which is the id of the user just updated.
+	 */
+	public int editAccount(int userId, String firstname, String lastname, String username, String newPassword, String newPasswordRetype, String email, String telephone) 
+	{
+		User user = dbSaver.fetchUserFromRepository(userId);
+		Credentials userCred = dbSaver.fetchSingleCredentialsFromRepositoryPassUser(user);
+		String oldPassword = userCred.getPassword();
+		String oldUsername = userCred.getUsername();
+		
+		//This checks if the username exists and is reserved by another person
+		//I need to check if it is reserved by another person
+		//because when I do not want to change the username, it would
+		//check if the username already exists and if yes then it would 
+		//encounter an error. But the username is reserved by my user and
+		//I do not want to show an error.
+		if(usernameAlreadyExists(username) && !userCred.hasUsername(username))
+			return StatusCode.USERNAME_ALREADY_EXISTS;
+		
+		if(!newPassword.isEmpty() && !newPasswordRetype.isEmpty() && !isNewPasswordValid(newPassword, newPasswordRetype))
+			return StatusCode.NEW_PASSWORD_IS_INVALID;
+		
+		if(!isEmailValid(email))
+			return StatusCode.INVALID_EMAIL;
+		
+		if(!isPhoneValid(telephone))
+			return StatusCode.INVALID_PHONE_NUMBER;
+		
+		//Hibernate does not allow modifying the primary key of an entity
+		//so I will delete it and create a new one
+		//Maybe user did not change the username nor password. I always delete 
+		//the credentials entity from my db and create a new one.
+		dbSaver.deleteCredentialsObjectFromRepository(userCred);
+		
+		Credentials updatedCred = Credentials.builder()
+											 .username(username)
+											 .password(oldPassword)
+											 .user(user)
+											 .build();
+		
+		//It is possible that user did not enter a new password so I need to check it
+		if(!newPassword.isEmpty())
+			updatedCred.setPassword(newPassword);
+		
+		user.setFirstname(firstname);
+		user.setLastname(lastname);
+		user.setEmail(email);
+		user.setTelephone(telephone);
+		
+		dbSaver.storeUserToRepository(user);
+		dbSaver.storeCredentialsToRepository(updatedCred);
+		
+		return user.fetchUserId();
+	}
+	
 	public boolean usernameAlreadyExists(String username)
 	{
 		Credentials cred = null;
 		
 		try
 		{
-			cred = dbSaver.fetchSingleCredentialsFromDb(username);
+			cred = dbSaver.fetchSingleCredentialsFromRepository(username);
 		}
 		catch(NoSuchElementException e)
 		{
@@ -165,6 +230,11 @@ public class AccountValidator
 		return Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?!.* ).{8,}$", password);
 	}
 	
+	public boolean isNewPasswordValid(String newPassword, String newPasswordRetype) 
+	{
+		return isPasswordValid(newPasswordRetype) && isPasswordValid(newPasswordRetype) && (newPassword.equals(newPasswordRetype));
+	}
+	
 	public boolean isEmailValid(String email)
 	{
 		//I want emails that have at least one character from a-z or A-Z or 0-9
@@ -184,6 +254,4 @@ public class AccountValidator
 		
 		return phone.matches("69\\d{8}|2\\d{9}");
 	}
-	
-	
 }
