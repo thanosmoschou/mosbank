@@ -6,6 +6,49 @@
     <title>My Account</title>
 </head>
 <body>
-    <p>My Account Page Under Construction</p>
+    <header>
+        <h1 id="myAccountTitleLabel">My Account</h1>
+        <ul id="actionsList">
+            <li><a th:href="@{/mainpage}">Main Page</a></li>
+            <li><a th:href="@{'/transaction/' + ${user_id}}">New Transaction</a></li>
+            <li><a th:href="@{/}">Logout</a></li>
+        </ul>
+    </header>
+
+    <main>
+        <div class="myAccountArea">
+            <p id="myAccountEditPromptLabel">Let's edit your account!</p>
+            <form class="myAccountEditForm" method="post" action="#" th:action="@{/validateMyAccountEdit}"><br>
+
+                <label id="firstNameLabel" for="firstname">First Name:</label><br>
+                <input type="text" id="firstname" name="firstnameInput" th:value="${firstname}" required><br>
+
+                <label id="lastNameLabel" for="lastname">Last Name:</label><br>
+                <input type="text" id="lastname" name="lastnameInput" th:value="${lastname}" required><br>
+
+                <label id="usernameLabel" for="username">Username:</label><br>
+                <input type="text" id="username" name="usernameInput" th:value="${username}" required><br>
+
+                <label id="passwordLabel" for="password">Enter a new password:</label><br>
+                <input type="password" id="password" name="passwordInput"><br>
+
+                <label id="passwordLabelRetype" for="passwordRe-enter">Re-enter your new password:</label><br>
+                <input type="password" id="passwordRe-enter" name="passwordInputRetype"><br>
+
+                <label id="emailLabel" for="email">Email:</label><br>
+                <input type="email" id="email" name="emailInput" th:value="${email}" required><br>
+
+                <label id="telephoneLabel" for="telephone">Telephone:</label><br>
+                <input type="tel" id="telephone" name="telephoneInput" th:value="${telephone}" required><br>
+
+                <input id="submitButton" type="submit" value="Edit">
+                <button id="backButton" th:onclick="window.location='/mainpage'">Back</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <h5 id="author">v1.0 by Thanos Moschou, 2023 &copy;</h5>
+    </footer>
 </body>
 </html>

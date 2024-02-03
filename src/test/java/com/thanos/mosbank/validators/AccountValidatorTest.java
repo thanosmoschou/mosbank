@@ -34,7 +34,7 @@ class AccountValidatorTest
 		String thisUsernameExists = "thanos";
 				
 		dbSaver.storeCredentialsToRepository("thanos", "changeme", null);;
-		when(dbSaver.fetchSingleCredentialsFromDb("thanos")).thenReturn(Optional.of(c1).get());
+		when(dbSaver.fetchSingleCredentialsFromRepository("thanos")).thenReturn(Optional.of(c1).get());
 	
 		assertTrue(testValidator.usernameAlreadyExists(thisUsernameExists));
 	}
@@ -46,7 +46,7 @@ class AccountValidatorTest
 		String thisUsernameDoesNotExist = "makis";
 				
 		dbSaver.storeCredentialsToRepository("thanos", "changeme", null);;
-		when(dbSaver.fetchSingleCredentialsFromDb("makis")).thenThrow(NoSuchElementException.class);
+		when(dbSaver.fetchSingleCredentialsFromRepository("makis")).thenThrow(NoSuchElementException.class);
 	
 		//the repo will throw an exception and usernameAlreadyExists method will catch it and return false as the result
 		assertFalse(testValidator.usernameAlreadyExists(thisUsernameDoesNotExist));
@@ -191,5 +191,45 @@ class AccountValidatorTest
 		String invalidPhone3 = "23105478"; //Looks like a greek number but it has 8 digits
 		
 		assertFalse(testValidator.isPhoneValid(invalidPhone3));
+	}
+	
+	@Test
+	void testIfNewPasswordIsValid1()
+	{
+		//valid password and the 2 fields are the same -> Result should be true
+		String valid1 = "aaSS11@@";
+		String valid2 = "aaSS11@@";
+		
+		assertTrue(testValidator.isNewPasswordValid(valid1, valid2));
+	}
+	
+	@Test
+	void testIfNewPasswordIsValid2()
+	{
+		//valid passwords and the 2 fields are not the same -> Result should be false
+		String valid1 = "aaSS11@@";
+		String valid2 = "aaSS11@@2";
+		
+		assertFalse(testValidator.isNewPasswordValid(valid1, valid2));
+	}
+	
+	@Test
+	void testIfNewPasswordIsValid3()
+	{
+		//invalid passwords and the 2 fields are the same -> Result should be false
+		String invalid1 = "aaSS@@";
+		String invalid2 = "aaSS@@";
+		
+		assertFalse(testValidator.isNewPasswordValid(invalid1, invalid2));
+	}
+	
+	@Test
+	void testIfNewPasswordIsValid4()
+	{
+		//invalid passwords and the 2 fields are not the same -> Result should be false
+		String invalid1 = "aaSS@@";
+		String invalid2 = "aaS@@";
+		
+		assertFalse(testValidator.isNewPasswordValid(invalid1, invalid2));
 	}
 }

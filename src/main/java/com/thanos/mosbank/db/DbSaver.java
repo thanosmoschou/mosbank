@@ -18,9 +18,6 @@ import com.thanos.mosbank.repos.IbanRepository;
 import com.thanos.mosbank.repos.TransactionRepository;
 import com.thanos.mosbank.repos.UserRepository;
 
-
-//MAKE METHOD TO STORE THE UPDATED BALANCE FOR AN ACCOUNT
-
 //Singleton Design Pattern
 public class DbSaver 
 {
@@ -62,7 +59,7 @@ public class DbSaver
 	
 	public User fetchUserFromRepositorySearchByIban(String iban)
 	{
-		Iban userIban = fetchIbanFromDb(iban);
+		Iban userIban = fetchIbanFromRepository(iban);
 		List<User> users = fetchAllUsersFromRepository();
 		
 		for(User u : users)
@@ -71,23 +68,43 @@ public class DbSaver
 		return null;
 	}
 	
-	public Card fetchCardFromDb(String cardNumber)
+	public User fetchUserFromRepositorySearchByCredentialsObject(Credentials cred)
+	{
+		List<User> users = fetchAllUsersFromRepository();
+		
+		for(User u : users)
+			if(cred.hasUser(u))
+				return u;
+		return null;
+	}
+	
+	public Card fetchCardFromRepository(String cardNumber)
 	{
 		return cardsRepo.findById(cardNumber).get();
 	}
 	
-	public Credentials fetchSingleCredentialsFromDb(String username)
+	public Credentials fetchSingleCredentialsFromRepository(String username)
 	{
 		return credentialsRepo.findById(username).get();
 	}
 	
+	public Credentials fetchSingleCredentialsFromRepositoryPassUser(User aUser)
+	{
+		List<Credentials> allCredentials = credentialsRepo.findAll();
+		
+		for(Credentials cred : allCredentials)
+			if(cred.hasUser(aUser))
+				return cred;
+		return null;
+	}
+	
 	//maybe useless here
-	public Iban fetchIbanFromDb(String iban)
+	public Iban fetchIbanFromRepository(String iban)
 	{
 		return ibanRepo.findById(iban).get();
 	}
 	
-	public Iban fetchIbanFromDbViaUser(User user)
+	public Iban fetchIbanFromRepositoryViaUser(User user)
 	{
 		List<Iban> ibans = ibanRepo.findAll();
 		
@@ -97,15 +114,14 @@ public class DbSaver
 		return null;
 	}
 	
-	
 	//Maybe useless in my case because I do not know the id explicitly.
 	//This is useful if I know the id from the db and retrieve the account.
-	public BankAccount fetchBankAccountFromDb(int id)
+	public BankAccount fetchBankAccountFromRepository(int id)
 	{
 		return bankAccountRepo.findById(id).get();
 	}
 	
-	public BankAccount fetchBankAccountFromDbViaUser(User user)
+	public BankAccount fetchBankAccountFromRepositoryViaUser(User user)
 	{
 		List<BankAccount> accounts = bankAccountRepo.findAll();
 		
@@ -115,16 +131,16 @@ public class DbSaver
 		return null;
 	}
 	
-	public BankAccount fetchBankAccountFromDbSearchByIban(String iban)
+	public BankAccount fetchBankAccountFromRepositorySearchByIban(String iban)
 	{
 		User user = fetchUserFromRepositorySearchByIban(iban);
-		BankAccount userBankAccount = fetchBankAccountFromDbViaUser(user);
+		BankAccount userBankAccount = fetchBankAccountFromRepositoryViaUser(user);
 		
 		return userBankAccount;
 	}
 	
 	//The same explanation here
-	public Transaction fetchSingleTransactionFromDb(int transId)
+	public Transaction fetchSingleTransactionFromRepository(int transId)
 	{
 		return transactionsRepo.findById(transId).get();
 	}
@@ -250,6 +266,11 @@ public class DbSaver
 	public void storeTransactionToRepository(Transaction transaction)
 	{
 		transactionsRepo.save(transaction);
+	}
+	
+	public void deleteCredentialsObjectFromRepository(Credentials credentials)
+	{
+		credentialsRepo.delete(credentials);
 	}
 	
 }

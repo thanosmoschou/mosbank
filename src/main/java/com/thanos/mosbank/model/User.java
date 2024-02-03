@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -43,15 +44,24 @@ public class User
 	{
 		return this.firstname.equals(firstname);
 	}
-	
-	/*
-	public void printInfo()
+
+	public void setFirstname(String firstname) 
 	{
-		System.out.println("Id: " + this.id);
-		System.out.println("Firstname: " + this.firstname);
-		System.out.println("Lastname: " + this.lastname);
-		System.out.println("Email: " + this.email);
-		System.out.println("Telephone: " + this.telephone);
+		this.firstname = firstname;
 	}
-	*/
+
+	public void setLastname(String lastname) 
+	{
+		this.lastname = lastname;
+	}
+
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
+
+	public void setTelephone(String telephone) 
+	{
+		this.telephone = telephone;
+	}
 }

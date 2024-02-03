@@ -12,5 +12,5 @@ public class StatusCode
 	public static final int NOT_ENOUGH_BALANCE = -30;
 	public static final int SUCCESSFUL_TRANSACTION = 100;
 	public static final int INVALID_AMOUNT_FOR_TRANSACTION = -400;
-	//public static final int USER_DID_NOT_LOGGED_IN = -1000;
+	public static final int NEW_PASSWORD_IS_INVALID = -500;
 }

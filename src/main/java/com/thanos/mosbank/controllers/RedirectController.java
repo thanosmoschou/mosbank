@@ -44,7 +44,6 @@ public class RedirectController
 		return showLoginPage();
 	}
 	
-	
 	@RequestMapping(path = "/login")
 	public String showLoginPage()
 	{
@@ -71,9 +70,10 @@ public class RedirectController
 	}
 	
 	@RequestMapping(path = "/account/{userid}")
-	public String showMyAccountPage(@PathVariable String userid)
+	public String showMyAccountPage(@PathVariable String userid, Model model)
 	{
 		this.userId = Integer.parseInt(userid);
+		viewEditor.putInfoToMyAccountPageTemplate(userId, model);
 		return "html/myaccount";
 	}
 	
@@ -155,7 +155,7 @@ public class RedirectController
 		{
 			model.addAttribute("statusMessage", Alerts.SUCCESSFUL_TRANSACTION_MESSAGE);
 			model.addAttribute("mainPageUrl", "mainpage");
-			return "html/successfultransaction";
+			return "html/success";
 		}
 	}
 	
@@ -172,6 +172,36 @@ public class RedirectController
 			model.addAttribute("errorMessage", Alerts.USER_DID_NOT_LOGGED_IN_MESSAGE);
 			model.addAttribute("backUrl", "login"); //this creates a hyperlink to go back to login
 			return "html/somethingwentwrong";
+		}
+	}
+	
+	@RequestMapping(path = "/validateMyAccountEdit", method = RequestMethod.POST)
+	public String editAccount(@RequestBody MultiValueMap<String, String> values, Model model)
+	{
+		String firstname = values.get("firstnameInput").get(0);
+		String lastname = values.get("lastnameInput").get(0);
+		String username = values.get("usernameInput").get(0);
+		String newPassword = values.get("passwordInput").get(0);
+		String newPasswordRetype = values.get("passwordInputRetype").get(0);
+		String email = values.get("emailInput").get(0);
+		String telephone = values.get("telephoneInput").get(0);
+		
+		//the return value is the user's id if user exists, otherwise it contains an error code
+		int returnedValue = accountValidator.editAccount(userId, firstname, lastname, username, newPassword, newPasswordRetype, email, telephone);
+		
+		if(returnedValue == StatusCode.USERNAME_ALREADY_EXISTS)
+			return goToSomethingWentWrongPage(Alerts.USERNAME_ALREADY_EXISTS_MESSAGE, "account/" + this.userId, model);
+		else if(returnedValue == StatusCode.NEW_PASSWORD_IS_INVALID)
+			return goToSomethingWentWrongPage(Alerts.NEW_PASSWORD_IS_INVALID_MESSAGE, "account/" + this.userId, model);
+		else if(returnedValue == StatusCode.INVALID_EMAIL)
+			return goToSomethingWentWrongPage(Alerts.INVALID_EMAIL_MESSAGE, "account/" + this.userId, model);
+		else if(returnedValue == StatusCode.INVALID_PHONE_NUMBER)
+			return goToSomethingWentWrongPage(Alerts.INVALID_PHONE_NUMBER_MESSAGE, "account/" + this.userId, model);
+		else
+		{
+			model.addAttribute("statusMessage", Alerts.SUCCESSFUL_ACCOUNT_EDIT_MESSAGE);
+			model.addAttribute("mainPageUrl", "mainpage");
+			return "html/success";
 		}
 	}
 	

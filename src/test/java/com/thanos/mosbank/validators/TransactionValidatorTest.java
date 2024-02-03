@@ -32,7 +32,7 @@ class TransactionValidatorTest
 										 .user(null)
 										 .build();
 		
-		when(dbSaver.fetchBankAccountFromDbSearchByIban("GR101010101010101010")).thenReturn(account);
+		when(dbSaver.fetchBankAccountFromRepositorySearchByIban("GR101010101010101010")).thenReturn(account);
 		
 		assertTrue(transactionValidator.isBalanceEnough("GR101010101010101010", 900));
 	}
@@ -46,7 +46,7 @@ class TransactionValidatorTest
 										 .user(null)
 										 .build();
 		
-		when(dbSaver.fetchBankAccountFromDbSearchByIban("GR101010101010101010")).thenReturn(account);
+		when(dbSaver.fetchBankAccountFromRepositorySearchByIban("GR101010101010101010")).thenReturn(account);
 		
 		assertFalse(transactionValidator.isBalanceEnough("GR101010101010101010", 9000));
 	}

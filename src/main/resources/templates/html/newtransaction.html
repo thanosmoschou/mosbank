@@ -7,8 +7,9 @@
 </head>
 <body>
     <header>
-        <h1 id="mosbankLabel">mosbank</h1>
+        <h1 id="newTransactionTitleLabel">New Transaction</h1>
         <ul id="actionsList">
+            <li><a th:href="@{/mainpage}">Main Page</a></li>
             <li><a th:href="@{'/account/' + ${user_id}}">My Account</a></li>
             <li><a th:href="@{/}">Logout</a></li>
         </ul>
