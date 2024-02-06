@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.thanos.mosbank.alerts.Alerts;
 import com.thanos.mosbank.editView.ViewEditor;
 import com.thanos.mosbank.errorCodes.StatusCode;
+import com.thanos.mosbank.model.Card;
 import com.thanos.mosbank.validators.AccountValidator;
+import com.thanos.mosbank.validators.AtmValidator;
 import com.thanos.mosbank.validators.TransactionValidator;
 
 @Controller
@@ -26,14 +28,16 @@ public class RedirectController
 {
 	private AccountValidator accountValidator;
 	private TransactionValidator transactionValidator;
+	private AtmValidator atmValidator;
 	private ViewEditor viewEditor;
 	
 	private int userId;
 	
-	public RedirectController(AccountValidator accountValidator, TransactionValidator transactionValidator, ViewEditor viewEditor)
+	public RedirectController(AccountValidator accountValidator, TransactionValidator transactionValidator, AtmValidator atmValidator, ViewEditor viewEditor)
 	{
 		this.accountValidator = accountValidator;
 		this.transactionValidator = transactionValidator;
+		this.atmValidator = atmValidator;
 		this.viewEditor = viewEditor;
 		this.userId = 0;
 	}
@@ -59,6 +63,12 @@ public class RedirectController
 	public String showSignupPage()
 	{
 		return "html/signup";
+	}
+	
+	@RequestMapping(path = "/atm")
+	public String showATMPage()
+	{
+		return "html/atm";
 	}
 	
 	@RequestMapping(path = "/transaction/{userid}")
@@ -152,10 +162,24 @@ public class RedirectController
 		else if(transactionStatusCode == StatusCode.NOT_ENOUGH_BALANCE)
 			return goToSomethingWentWrongPage(Alerts.NOT_ENOUGH_BALANCE_MESSAGE, "transaction/" + this.userId, model);	
 		else
+			return goToSuccessPage(Alerts.SUCCESSFUL_TRANSACTION_MESSAGE, "mainpage", model);
+	}
+	
+	@RequestMapping(path = "/validateATM", method = RequestMethod.POST)
+	public String atmLogin(@RequestBody MultiValueMap<String, String> values, Model model)
+	{
+		String number = values.get("cardNumberInput").get(0);
+		String pin = values.get("cardPinInput").get(0);
+		
+		Card userCard = atmValidator.login(number, pin);
+		
+		if(userCard == null)
+			return goToSomethingWentWrongPage(Alerts.INVALID_CARD_CREDENTIALS_MESSAGE, "atm", model);
+		else
 		{
-			model.addAttribute("statusMessage", Alerts.SUCCESSFUL_TRANSACTION_MESSAGE);
-			model.addAttribute("mainPageUrl", "mainpage");
-			return "html/success";
+			this.userId = userCard.fetchUserId();
+			viewEditor.putInfoToCardPageTemplate(userId, model);
+			return "html/card";
 		}
 	}
 	
@@ -198,11 +222,7 @@ public class RedirectController
 		else if(returnedValue == StatusCode.INVALID_PHONE_NUMBER)
 			return goToSomethingWentWrongPage(Alerts.INVALID_PHONE_NUMBER_MESSAGE, "account/" + this.userId, model);
 		else
-		{
-			model.addAttribute("statusMessage", Alerts.SUCCESSFUL_ACCOUNT_EDIT_MESSAGE);
-			model.addAttribute("mainPageUrl", "mainpage");
-			return "html/success";
-		}
+			return goToSuccessPage(Alerts.SUCCESSFUL_ACCOUNT_EDIT_MESSAGE, "mainpage", model);
 	}
 	
 	private String goToSomethingWentWrongPage(String errorMessage, String backUrl, Model model)
@@ -210,5 +230,12 @@ public class RedirectController
 		model.addAttribute("errorMessage", errorMessage);
 		model.addAttribute("backUrl", backUrl); 
 		return "html/somethingwentwrong";
+	}
+	
+	private String goToSuccessPage(String successMessage, String backUrl, Model model)
+	{
+		model.addAttribute("statusMessage", successMessage);
+		model.addAttribute("backUrl", backUrl);
+		return "html/success";
 	}
 }

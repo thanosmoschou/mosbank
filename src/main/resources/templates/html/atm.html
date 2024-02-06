@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATM</title>
+</head>
+<body>
+    <header>
+        <h1 id="atmTitleLabel">Your friendly neighbourhood ATM!</h1>
+    </header>
+
+    <main>
+        <div class="atmArea">
+            <p id="atmUsePromptLabel">Let's use the ATM!</p>
+            <form class="atmForm" method="post" action="#" th:action="@{/validateATM}"><br>
+
+                <label id="cardNumberLabel" for="number">Enter your card number:</label><br>
+                <input type="text" id="number" name="cardNumberInput" required><br>
+
+                <label id="cardPinLabel" for="pin">Enter card's pin:</label><br>
+                <input type="text" id="pin" name="cardPinInput" required><br>
+
+                <input id="submitButton" type="submit" value="Edit">
+                <button id="backButton" th:onclick="window.location='/login'">Go To Login Page</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <h5 id="author">v1.0 by Thanos Moschou, 2023 &copy;</h5>
+    </footer>
+</body>
+</html>

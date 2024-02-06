@@ -15,6 +15,7 @@ create table users(
 
 create table cards(
     number varchar(16) primary key,
+    pin varchar(4),
     expire_date varchar(5),
     cvv varchar(3),
     user_id int,

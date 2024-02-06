@@ -5,9 +5,9 @@ insert into users values (1, "thanos", "moschou", "than@example.com", "694444444
                          (2, "John", "Doe", "john@john.com", "6977777777"),
                          (3, "Makis", "Kotsampasis", "makis@makis.com", "2310123654");
 
-insert into cards values ("5011054488597827", "08/24", "503", 1),
-                         ("3058860736529886", "11/30", "621", 2),
-                         ("7958110142072234", "12/29", "777", 3);
+insert into cards values ("5011054488597827", "4523", "08/24", "503", 1),
+                         ("3058860736529886", "4789", "11/30", "621", 2),
+                         ("7958110142072234", "6985", "12/29", "777", 3);
 
 insert into credentials values ("thanos", "changeme", 1),
                                ("johnjohn", "aaSS11@@", 2),

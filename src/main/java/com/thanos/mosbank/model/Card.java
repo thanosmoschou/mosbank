@@ -26,9 +26,25 @@ public class Card
 	
 	@Id
 	private String number;
+	private String pin;
 	private String expire_date;
 	private String cvv;
 	@OneToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "user_id")
 	private User user;
+	
+	public boolean hasPin(String pin)
+	{
+		return this.pin.equals(pin);
+	}
+	
+	public boolean hasUser(User aUser)
+	{
+		return this.user.equals(aUser);
+	}
+	
+	public int fetchUserId()
+	{
+		return this.user.fetchUserId();
+	}
 }

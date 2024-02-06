@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Card Page</title>
+</head>
+<body>
+    <header>
+        <h1 id="dashboard">Dashboard</h1>
+        <ul id="actionsList">
+            <li><a th:href="@{/}">Logout</a></li>
+        </ul>
+    </header>
+
+    <main>
+        <h2 id="welcomeUserLabel" th:text="'Welcome ' + ${firstname}"></h2>
+        <h3 id="balanceLabel" th:text="'Your Balance: ' + ${balance}"></h3>
+    </main>
+
+    <footer>
+        <h5 id="author">v1.0 by Thanos Moschou, 2023 &copy;</h5>
+    </footer>
+</body>
+</html>

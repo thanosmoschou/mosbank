@@ -19,4 +19,5 @@ public class Alerts
 	public static final String NEW_PASSWORD_IS_INVALID_MESSAGE = "The new password is invalid. Make sure that you enter a valid password and the 2 password fields"
 			+ " contain the same value.";
 	public static final String SUCCESSFUL_ACCOUNT_EDIT_MESSAGE = "Your account details have successfully changed.";
+	public static final String INVALID_CARD_CREDENTIALS_MESSAGE = "The given credentials are wrong. Maybe the card number does not exist or the pin is wrong. Try again.";
 }

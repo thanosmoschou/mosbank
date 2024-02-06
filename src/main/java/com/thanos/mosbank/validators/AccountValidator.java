@@ -124,11 +124,12 @@ public class AccountValidator
 		User createdUser = allUsers.get(allUsers.size() - 1);
 	
 		String generatedCardNumber = CardCredentialsGenerator.generateCardNumber();
+		String cardPin = CardCredentialsGenerator.generateCardPin();
 		String expDate = CardCredentialsGenerator.generateExpireDate();
 		String cvv = CardCredentialsGenerator.generateCVV();
 		String ibanNumber = IbanGenerator.generateIban();
 		
-		dbSaver.storeCardToRepository(generatedCardNumber, expDate, cvv, createdUser);
+		dbSaver.storeCardToRepository(generatedCardNumber, cardPin, expDate, cvv, createdUser);
 		dbSaver.storeCredentialsToRepository(username, password, createdUser);
 		dbSaver.storeIbanToRepository(ibanNumber, createdUser);
 		dbSaver.storeBankAccountToRepositoryForUser(createdUser);

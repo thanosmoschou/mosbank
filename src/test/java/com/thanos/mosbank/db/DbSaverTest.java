@@ -116,6 +116,25 @@ class DbSaverTest
 	}
 	
 	@Test
+	void testIfUserIsSavedPassUserObjectAndSearchByCardObject()
+	{
+		Card userCard = Card.builder()
+							.number("4556383361319387")
+							.pin("2343")
+							.cvv("808")
+							.expire_date("08/25")
+							.user(createdUser)
+							.build();
+
+		testDbSaver.storeUserToRepository(createdUser);
+		
+		when(userRepo.findAll()).thenReturn(List.of(createdUser));
+		
+		User ret = testDbSaver.fetchUserFromRepositorySearchByCardObject(userCard);
+		assertEquals(createdUser, ret);
+	}
+	
+	@Test
 	void testIfCredentialsAreSaved()
 	{
 		Credentials userCred = Credentials.builder()
@@ -171,11 +190,13 @@ class DbSaverTest
 	{
 		Card userCard = Card.builder()
 							.number("4556383361319387")
+							.pin("2343")
 							.cvv("808")
 							.expire_date("08/25")
+							.user(createdUser)
 							.build();
 		
-		testDbSaver.storeCardToRepository("4556383361319387", "808", "08/25", createdUser);
+		testDbSaver.storeCardToRepository("4556383361319387", "2343", "808", "08/25", createdUser);
 		
 		when(cardRepo.findById("4556383361319387")).thenReturn(Optional.of(userCard));
 		
@@ -188,8 +209,10 @@ class DbSaverTest
 	{
 		Card userCard = Card.builder()
 							.number("4556383361319387")
+							.pin("0000")
 							.cvv("808")
 							.expire_date("08/25")
+							.user(createdUser)
 							.build();
 
 		testDbSaver.storeCardToRepository(userCard);
