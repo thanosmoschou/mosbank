@@ -6,6 +6,7 @@ import java.util.Random;
 public class CardCredentialsGenerator 
 {
 	private static final int CARD_DIGITS = 16;
+	private static final int PIN_DIGITS = 4;
 	private static final int MINIMUM_YEAR_LIMIT_FOR_CARD_CHANGE = 5;
 	private static final int MAXIMUM_YEAR_LIMIT_FOR_CARD_CHANGE  = 10;
 	private static final int MONTH_RANGE = 12;
@@ -71,6 +72,17 @@ public class CardCredentialsGenerator
 			generatedCardNumber = createNumber();
 		
 		return generatedCardNumber;
+	}
+	
+	public static String generateCardPin()
+	{
+		String pin = "";
+		Random rand = new Random();
+		
+		for(int i = 0; i < PIN_DIGITS; i++)
+			pin += Integer.toString(rand.nextInt(0, 10)); //10 is exclusive
+		
+		return pin;
 	}
 	
 	public static String createNumber()

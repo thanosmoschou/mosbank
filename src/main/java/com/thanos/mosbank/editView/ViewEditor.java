@@ -69,11 +69,22 @@ public class ViewEditor
 		String email = user.getEmail();
 		String telephone = user.getTelephone();
 		
+		model.addAttribute("user_id", userId);
 		model.addAttribute("firstname", firstname);
 		model.addAttribute("lastname", lastname);
 		model.addAttribute("username", username);
 		model.addAttribute("email", email);
 		model.addAttribute("telephone", telephone);
-
+	}
+	
+	public void putInfoToCardPageTemplate(int userId, Model model)
+	{
+		User user = dbSaver.fetchUserFromRepository(userId);
+		BankAccount account = dbSaver.fetchBankAccountFromRepositoryViaUser(user);
+		int balance = account.getBalance();
+		String firstname = user.getFirstname();
+		
+		model.addAttribute("firstname", firstname);
+		model.addAttribute("balance", balance);
 	}
 }

@@ -78,6 +78,16 @@ public class DbSaver
 		return null;
 	}
 	
+	public User fetchUserFromRepositorySearchByCardObject(Card card)
+	{
+		List<User> users = fetchAllUsersFromRepository();
+		
+		for(User u : users)
+			if(card.hasUser(u))
+				return u;
+		return null;
+	}
+	
 	public Card fetchCardFromRepository(String cardNumber)
 	{
 		return cardsRepo.findById(cardNumber).get();
@@ -185,11 +195,12 @@ public class DbSaver
 		usersRepo.save(user);
 	}
 	
-	public void storeCardToRepository(String cardNumber, String expDate, String cvv, User createdUser)
+	public void storeCardToRepository(String cardNumber, String pin, String expDate, String cvv, User createdUser)
 	{
 		//generate user's card
 		Card userCard = Card.builder()
 							.number(cardNumber)
+							.pin(pin)
 							.expire_date(expDate)
 							.cvv(cvv)
 							.user(createdUser)
