@@ -1,39 +1,43 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
+    <link rel="stylesheet" th:href="@{/css/mainpageStyles.css}">
+    <!-- <link rel="stylesheet" href="../../static/css/mainpageStyles.css"> -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
 </head>
 <body>
     <header>
-        <h1 id="dashboard">Dashboard</h1>
+        <h1 class="dashboard">Dashboard</h1>
         <ul id="actionsList">
-            <li><a th:href="@{'/transaction/' + ${user_id}}">New Transaction</a></li>
-            <li><a th:href="@{'/account/' + ${user_id}}">My Account</a></li>
-            <li><a th:href="@{/}">Logout</a></li>
+            <li id="trans"><a th:href="@{'/transaction/' + ${user_id}}">New Transaction</a></li>
+            <li id="acc"><a th:href="@{'/account/' + ${user_id}}">My Account</a></li>
+            <li id="logout"><a th:href="@{/}">Logout</a></li>
         </ul>
     </header>
 
     <main>
         <h2 id="welcomeUserLabel" th:text="'Welcome ' + ${firstname}"></h2>
-        <h3 id="balanceLabel" th:text="'Your Balance: ' + ${balance}"></h3>
-        <h4 id="transactionsLabel">Let's see your transactions!</h4>
+        <h3 id="balanceLabel" th:text="'Your Balance: ' + ${balance} + '€'"></h3>
+        <h4 id="transactionsLabel">Let's see your transactions</h4>
 
-        <table>
-            <tr>
-                <td>Transaction Id</td>
-                <td>Date</td>
-                <td>Amount</td>
-                <td>Description</td>
-            </tr>
-            <tr th:each="transaction : ${usertransactions}">
-                <td th:text="${transaction.trans_id}"></td>
-                <td th:text="${transaction.trans_date}"></td>
-                <td th:text="${transaction.amount}"></td>
-                <td th:text="${transaction.description_message}"></td>
-            </tr>
-        </table>
+        <div id="tableContainer">
+            <table>
+                <tr>
+                    <th>Transaction Id</td>
+                    <th>Date</td>
+                    <th>Amount</td>
+                    <th>Description</td>
+                </tr>
+                <tr th:each="transaction : ${usertransactions}">
+                    <td th:text="${transaction.trans_id}">120</td>
+                    <td th:text="${transaction.trans_date}">21/12/2023</td>
+                    <td th:text="${transaction.amount}">2500</td>
+                    <td th:text="${transaction.description_message}">Payroll Moschou</td>
+                </tr>
+            </table>
+        </div>
 
     </main>
 

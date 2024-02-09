@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
+    <!-- <link rel="stylesheet" href="../../static/css/somethingwentwrongStyles.css"> -->
+    <link rel="stylesheet" th:href="@{/css/somethingwentwrongStyles.css}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Error</title>
 </head>
 <body>
     <h2>Something Went Wrong...</h2>
-    <p th:text="${errorMessage}"></p>
-    <a id="goBack" th:href="@{'/' + ${backUrl}}" target="_self">Go Back</a><br>
+    <div id="errorContainer">
+        <p th:text="${errorMessage}">Test Message</p>
+        <a id="goBack" th:href="@{'/' + ${backUrl}}" target="_self">Go Back</a><br>
+    </div>
 
 </body>
 </html>
