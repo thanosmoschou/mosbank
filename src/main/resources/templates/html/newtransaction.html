@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
+    <link rel="stylesheet" th:href="@{/css/newtransactionStyles.css}">
+    <!-- <link rel="stylesheet" href="../../static/css/newtransactionStyles.css"> -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Transaction</title>
@@ -9,9 +11,9 @@
     <header>
         <h1 id="newTransactionTitleLabel">New Transaction</h1>
         <ul id="actionsList">
-            <li><a th:href="@{/mainpage}">Main Page</a></li>
-            <li><a th:href="@{'/account/' + ${user_id}}">My Account</a></li>
-            <li><a th:href="@{/}">Logout</a></li>
+            <li id="mainPage"><a th:href="@{/mainpage}">Main Page</a></li>
+            <li id="acc"><a th:href="@{'/account/' + ${user_id}}">My Account</a></li>
+            <li id="logout"><a th:href="@{/}">Logout</a></li>
         </ul>
     </header>
 

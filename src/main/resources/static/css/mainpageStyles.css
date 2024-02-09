@@ -1,0 +1,111 @@
+@font-face{
+    font-family: Sofia;
+    src: url(../fonts/Sofia-Regular.ttf);
+}
+
+@font-face{
+    font-family: Comfortaa;
+    src: url(../fonts/Comfortaa-Regular.ttf);
+}
+
+body{
+    background-image: url(../images/backgroundBlue.jpg);
+    background-size: auto;
+}
+
+.dashboard{
+    position: relative;
+    font-family: Sofia;
+    font-size: 50px;
+    color: #cccccc;
+    width: 150px;
+    text-align: center;
+    margin-left: 30px;
+    margin-top: 3px;
+}
+
+#actionsList{
+    position: absolute;
+    display: inline-flex;
+    justify-content: space-around;
+    width: 400px;
+    height: 30px;
+    list-style-type: none;
+    right: 0px;
+    top: 20px;
+}
+
+/*Items inside my actionsList*/
+#trans a, #acc a, #logout a{
+    display: inline-block;
+    font-family: Comfortaa;
+    font-size: 15px;
+    color: #cccccc;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+#welcomeUserLabel, #balanceLabel, #transactionsLabel{
+    position: absolute;
+    left: 40px;
+    font-family: Comfortaa;
+    color: #cccccc;
+}
+
+#welcomeUserLabel{
+    top: 100px;
+    font-size: 35px;
+}
+
+#balanceLabel{
+    top: 200px;
+    font-size: 30px;
+}
+
+#transactionsLabel{
+    top: 290px;
+    font-size: 20px; 
+}
+
+#tableContainer{
+    position: absolute;
+    border: 2px solid black;
+    border-radius: 10px;
+    top: 350px;
+    left: 40px;
+    width: 1300px;
+    background-color: #FFE4C4;
+    color: black;
+    opacity: 0.7;
+}
+
+table{
+    font-family: Comfortaa;
+    border-collapse: collapse;
+    width: 1300px;
+}
+
+th, td{
+    border: 1px solid black;
+    text-align: center;
+}
+
+th{
+    font-size: 20px;
+}
+
+td{
+    font-size: 15px;
+}
+
+#author{
+    position: fixed;
+    font-family: Sofia;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+    right: 0px;
+    bottom: 0px;
+    width: 250px;
+}

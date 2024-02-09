@@ -1,0 +1,57 @@
+@font-face{
+    font-family: Sofia;
+    src: url(../fonts/Sofia-Regular.ttf);
+}
+
+@font-face{
+    font-family: Comfortaa;
+    src: url(../fonts/Comfortaa-Regular.ttf);
+}
+
+body{
+    background-image: url(../images/moneyBackground.jpg);
+    background-size: cover;
+}
+
+h2{
+    position: relative; /*space will be included inside the document*/
+    font-family: Sofia;
+    font-size: 50px;
+    color: #cccccc;
+    width: 650px;
+    text-align: center;
+    margin-top: 3px;
+}
+
+p{
+    position: relative; /*space will be included inside the document*/
+    font-family: Comfortaa;
+    font-size: 30px;
+    color: white;
+    width: 1000px;
+    text-align: left;
+    top: 60px;
+    left: 50px;
+}
+
+a{
+    position: relative; /*space will be included inside the document*/
+    font-family: Comfortaa;
+    font-size: 20px;
+    color: #cccccc;
+    width: 100px;
+    text-align: left;
+    top: 90px;
+    left: 50px;
+}
+
+#author{
+    position: fixed;
+    font-family: Sofia;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+    right: 0px;
+    bottom: 0px;
+    width: 250px;
+}
