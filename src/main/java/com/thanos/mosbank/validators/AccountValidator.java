@@ -8,13 +8,13 @@ import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.thanos.mosbank.db.DbSaver;
-import com.thanos.mosbank.errorCodes.StatusCode;
 import com.thanos.mosbank.generators.CardCredentialsGenerator;
 import com.thanos.mosbank.generators.IbanGenerator;
 import com.thanos.mosbank.model.Credentials;
 import com.thanos.mosbank.model.User;
 import com.thanos.mosbank.repos.CredentialsRepository;
 import com.thanos.mosbank.repos.UserRepository;
+import com.thanos.mosbank.statusCodes.StatusCode;
 
 //Singleton design pattern
 public class AccountValidator 

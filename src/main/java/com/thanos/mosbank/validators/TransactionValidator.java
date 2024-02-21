@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.thanos.mosbank.db.DbSaver;
-import com.thanos.mosbank.errorCodes.StatusCode;
 import com.thanos.mosbank.model.BankAccount;
 import com.thanos.mosbank.model.Iban;
 import com.thanos.mosbank.model.Transaction;
+import com.thanos.mosbank.statusCodes.StatusCode;
 
 //TEST FOR THIS
 
@@ -70,28 +70,13 @@ public class TransactionValidator
 		dbSaver.storeBankAccountToRepository(sBankAccount);
 		dbSaver.storeBankAccountToRepository(rBankAccount);
 		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		LocalDateTime currentDate = LocalDateTime.now();
-		String formattedDate = dtf.format(currentDate);
-		
 		//Transaction object need Iban object as attribute
 		Iban senderIbanObject = dbSaver.fetchIbanFromRepository(sIban);
 		Iban receiverIbanObject = dbSaver.fetchIbanFromRepository(rIban);
 		
 		//Let's create a transaction for each user
-		Transaction senderTransaction = Transaction.builder()
-											       .trans_date(formattedDate)
-											       .iban(senderIbanObject)
-											       .amount(sAmount)
-											       .description_message(description)
-											       .build();
-		
-		Transaction receiverTransaction = Transaction.builder()
-													 .trans_date(formattedDate)
-													 .iban(receiverIbanObject)
-													 .amount(sAmount)
-													 .description_message(description)
-													 .build();
+		Transaction senderTransaction = createTransaction(senderIbanObject, sAmount, description);
+		Transaction receiverTransaction = createTransaction(receiverIbanObject, sAmount, description);
 		
 		dbSaver.storeTransactionToRepository(senderTransaction);
 		dbSaver.storeTransactionToRepository(receiverTransaction);
@@ -111,5 +96,22 @@ public class TransactionValidator
 		BankAccount sendersBankAccount = dbSaver.fetchBankAccountFromRepositorySearchByIban(sIban);
 		
 		return sendersBankAccount.hasEnoughBalance(amount);
+	}
+	
+	private Transaction createTransaction(Iban iban, int amount, String description)
+	{
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		LocalDateTime currentDate = LocalDateTime.now();
+		String formattedDate = dtf.format(currentDate);
+		
+		//Let's create a transaction for each user
+		Transaction transaction = Transaction.builder()
+											 .trans_date(formattedDate)
+											 .iban(iban)
+											 .amount(amount)
+											 .description_message(description)
+											 .build();
+		
+		return transaction;
 	}
 }

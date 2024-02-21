@@ -16,7 +16,6 @@ import com.thanos.mosbank.model.BankAccount;
 @ExtendWith(MockitoExtension.class)
 class TransactionValidatorTest 
 {
-
 	@Mock
 	DbSaver dbSaver;
 	@InjectMocks
@@ -36,6 +35,7 @@ class TransactionValidatorTest
 		
 		assertTrue(transactionValidator.isBalanceEnough("GR101010101010101010", 900));
 	}
+	
 	
 	@Test
 	void balanceIsNotEnough()
