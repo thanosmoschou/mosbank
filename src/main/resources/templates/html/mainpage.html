@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-    <link rel="stylesheet" th:href="@{/css/mainpageStyles.css}">
-    <!-- <link rel="stylesheet" href="../../static/css/mainpageStyles.css"> -->
+    <!-- <link rel="stylesheet" th:href="@{/css/mainpageStyles.css}"> -->
+    <link rel="stylesheet" href="../../static/css/mainpageStyles.css">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Page</title>
 </head>
 <body>
@@ -18,8 +17,8 @@
     </header>
 
     <main>
-        <h2 id="welcomeUserLabel" th:text="'Welcome ' + ${firstname}"></h2>
-        <h3 id="balanceLabel" th:text="'Your Balance: ' + ${balance} + '€'"></h3>
+        <h2 id="welcomeUserLabel" th:text="'Welcome ' + ${firstname}">Welcome Test User</h2> <!--This text will be overwritten when app starts-->
+        <h3 id="balanceLabel" th:text="'Your Balance: ' + ${balance} + '€'">Your Balance: 100000€</h3>
         <h4 id="transactionsLabel">Let's see your transactions</h4>
 
         <div id="tableContainer">
