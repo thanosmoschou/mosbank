@@ -13,7 +13,7 @@ public class Alerts
 	public static final String INVALID_PHONE_NUMBER_MESSAGE = "This is not a Greek phone. Try again and type a different one.";
 	public static final String INVALID_RECEIVER_IBAN_MESSAGE = "The receiver's IBAN does not exist. Please go back and try again.";
 	public static final String NOT_ENOUGH_BALANCE_MESSAGE = "Your balance is not enough to complete the transaction. Please enter another amount.";
-	public static final String SUCCESSFUL_TRANSACTION_MESSAGE = "The transaction was successful. Return to the main page.";
+	public static final String SUCCESSFUL_TRANSACTION_MESSAGE = "The transaction was successful.";
 	public static final String INVALID_AMOUNT_FOR_TRANSACTION_MESSAGE = "Negative or 0 values are not allowed. Try again";
 	public static final String USER_DID_NOT_LOGGED_IN_MESSAGE = "You are not logged in. Log in and try again.";
 	public static final String NEW_PASSWORD_IS_INVALID_MESSAGE = "The new password is invalid. Make sure that you enter a valid password and the 2 password fields"

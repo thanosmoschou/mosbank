@@ -24,6 +24,16 @@ body{
     margin-top: 3px;
 }
 
+#atm{
+    position: absolute;
+    top: 40px;
+    right: 60px;
+    color: white;
+    font-size: 15px;
+    font-family: Comfortaa;
+    text-decoration: none;
+}
+
 .signupArea{
     font-size: 25px;
     color: white;

@@ -68,6 +68,16 @@ body{
 
 }
 
+#atm{
+    position: absolute;
+    top: 40px;
+    right: 60px;
+    color: white;
+    font-size: 15px;
+    font-family: Comfortaa;
+    text-decoration: none;
+}
+
 .loginForm{
     position: relative; /*space inside the anchestor will be calculated inside the document*/
     font-size: 20px;

@@ -15,7 +15,20 @@
 
     <main>
         <h2 id="welcomeUserLabel" th:text="'Welcome ' + ${firstname}"></h2>
-        <h3 id="balanceLabel" th:text="'Your Balance: ' + ${balance}"></h3>
+        <h3 id="balanceLabel" th:text="'Your Balance: ' + ${balance}"></h3> <br><br>
+
+        <form class="atmActionForm" method="post" action="#" th:action="@{/validateNewAtmAction}">
+            <label for="action">Please select your action:</label><br>
+            <select name="action" id="atmAction">
+                <option value="Deposit">Deposit</option>
+                <option value="Withdraw">Withdraw</option>
+            </select><br>
+
+            <label for="amount">Enter an amount:</label><br>
+            <input type="text" name="amount" required><br>
+
+            <input type="submit" value="Execute">
+        </form>
     </main>
 
     <footer>

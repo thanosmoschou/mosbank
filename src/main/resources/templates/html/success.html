@@ -10,6 +10,6 @@
 <body>
     <h2>Success!</h2>
     <p th:text="${statusMessage}">Test message</p>
-    <a id="mainPage" th:href="@{/mainpage}" target="_self">Go to main page</a><br>
+    <a id="mainPage" th:href="@{'/' + ${backUrl}}" target="_self">Go back</a><br>
 </body>
 </html>

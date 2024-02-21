@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.thanos.mosbank.alerts.Alerts;
 import com.thanos.mosbank.editView.ViewEditor;
-import com.thanos.mosbank.errorCodes.StatusCode;
+import com.thanos.mosbank.statusCodes.StatusCode;
 import com.thanos.mosbank.model.Card;
 import com.thanos.mosbank.validators.AccountValidator;
 import com.thanos.mosbank.validators.AtmValidator;
@@ -42,15 +42,19 @@ public class RedirectController
 		this.userId = 0;
 	}
 	
+	
 	@RequestMapping(path = "/")
 	public String showIndexPage()
 	{
 		return showLoginPage();
 	}
 	
+	
 	@RequestMapping(path = "/login")
 	public String showLoginPage()
 	{
+		this.userId = 0; //initialize this to something invalid in order to prevent direct access to some endpoints
+		
 		//Thymeleaf does not require .html at the end.
 		//It searches for templates under src/main/resources/templates
 		//Keep in mind that if you decorated an html file with a css file
@@ -59,11 +63,14 @@ public class RedirectController
 		return "html/login"; 
 	}
 	
+	
 	@RequestMapping(path = "/signup")
 	public String showSignupPage()
 	{
+		this.userId = 0;
 		return "html/signup";
 	}
+	
 	
 	@RequestMapping(path = "/atm")
 	public String showATMPage()
@@ -71,21 +78,49 @@ public class RedirectController
 		return "html/atm";
 	}
 	
+	
+	/*
+	 * This works only if user is logged in. You cannot directly access this endpoint
+	 * from the url address bar without being logged in first.
+	 */
 	@RequestMapping(path = "/transaction/{userid}")
 	public String showNewTransactionPage(@PathVariable String userid, Model model)
 	{
-		this.userId = Integer.parseInt(userid);
-		viewEditor.putInfoToNewTransactionPageTemplate(userId, model);
-		return "html/newtransaction";
+		if(this.userId == Integer.parseInt(userid))
+		{
+			viewEditor.putInfoToNewTransactionPageTemplate(userId, model);
+			return "html/newtransaction";
+		}
+		else
+		{
+			model.addAttribute("errorMessage", Alerts.USER_DID_NOT_LOGGED_IN_MESSAGE);
+			model.addAttribute("backUrl", "login"); //this creates a hyperlink to go back to login
+			return "html/somethingwentwrong";
+		}
+			
 	}
 	
+	
+	/*
+	 * The same login here. User needs to be logged in first in order to
+	 * be able to access this endpoint directly from the url address bar.
+	 */
 	@RequestMapping(path = "/account/{userid}")
 	public String showMyAccountPage(@PathVariable String userid, Model model)
 	{
-		this.userId = Integer.parseInt(userid);
-		viewEditor.putInfoToMyAccountPageTemplate(userId, model);
-		return "html/myaccount";
+		if(this.userId == Integer.parseInt(userid))
+		{
+			viewEditor.putInfoToMyAccountPageTemplate(userId, model);
+			return "html/myaccount";
+		}
+		else
+		{
+			model.addAttribute("errorMessage", Alerts.USER_DID_NOT_LOGGED_IN_MESSAGE);
+			model.addAttribute("backUrl", "login"); //this creates a hyperlink to go back to login
+			return "html/somethingwentwrong";
+		}
 	}
+	
 	
 	@RequestMapping(path = "/validateLogin", method = RequestMethod.POST)
 	public String login(@RequestBody MultiValueMap<String, String> values, Model model)
@@ -116,6 +151,7 @@ public class RedirectController
 		
 	}
 	
+	
 	@RequestMapping(path = "/validateSignUp", method = RequestMethod.POST)
 	public String signUp(@RequestBody MultiValueMap<String, String> values, Model model)
 	{
@@ -144,6 +180,7 @@ public class RedirectController
 		}
 	}	
 	
+	
 	@RequestMapping(path = "/validateNewTransaction", method = RequestMethod.POST)
 	public String newTransaction(@RequestBody MultiValueMap<String, String> values, Model model)
 	{
@@ -165,6 +202,7 @@ public class RedirectController
 			return goToSuccessPage(Alerts.SUCCESSFUL_TRANSACTION_MESSAGE, "mainpage", model);
 	}
 	
+	
 	@RequestMapping(path = "/validateATM", method = RequestMethod.POST)
 	public String atmLogin(@RequestBody MultiValueMap<String, String> values, Model model)
 	{
@@ -183,6 +221,24 @@ public class RedirectController
 		}
 	}
 	
+	
+	@RequestMapping(path = "/validateNewAtmAction", method = RequestMethod.POST)
+	public String atmAction(@RequestBody MultiValueMap<String, String> values, Model model)
+	{
+		String action = values.get("action").get(0);
+		int amount = Integer.parseInt(values.get("amount").get(0));
+						
+		int atmActionStatusCode = atmValidator.atmAction(action, amount, userId);
+		
+		if(atmActionStatusCode == StatusCode.NOT_ENOUGH_BALANCE)
+			return goToSomethingWentWrongPage(Alerts.NOT_ENOUGH_BALANCE_MESSAGE, "card", model);
+		else if(atmActionStatusCode == StatusCode.INVALID_AMOUNT_FOR_TRANSACTION)
+			return goToSomethingWentWrongPage(Alerts.INVALID_AMOUNT_FOR_TRANSACTION_MESSAGE, "card", model);
+		else
+			return goToSuccessPage(Alerts.SUCCESSFUL_TRANSACTION_MESSAGE, "login", model);
+	}
+	
+	
 	@RequestMapping(path = "/mainpage")
 	public String goToMainPage(Model model)
 	{
@@ -198,6 +254,23 @@ public class RedirectController
 			return "html/somethingwentwrong";
 		}
 	}
+	
+	@RequestMapping(path = "/card")
+	public String cardPage(Model model)
+	{
+		if(this.userId != 0)
+		{
+			viewEditor.putInfoToCardPageTemplate(userId, model);
+			return "html/card";
+		}
+		else
+		{
+			model.addAttribute("errorMessage", Alerts.USER_DID_NOT_LOGGED_IN_MESSAGE);
+			model.addAttribute("backUrl", "atm"); //this creates a hyperlink to go back to login
+			return "html/somethingwentwrong";
+		}
+	}
+	
 	
 	@RequestMapping(path = "/validateMyAccountEdit", method = RequestMethod.POST)
 	public String editAccount(@RequestBody MultiValueMap<String, String> values, Model model)
@@ -225,12 +298,14 @@ public class RedirectController
 			return goToSuccessPage(Alerts.SUCCESSFUL_ACCOUNT_EDIT_MESSAGE, "mainpage", model);
 	}
 	
+	
 	private String goToSomethingWentWrongPage(String errorMessage, String backUrl, Model model)
 	{
 		model.addAttribute("errorMessage", errorMessage);
 		model.addAttribute("backUrl", backUrl); 
 		return "html/somethingwentwrong";
 	}
+	
 	
 	private String goToSuccessPage(String successMessage, String backUrl, Model model)
 	{

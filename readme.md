@@ -24,3 +24,12 @@ use mosbank;
 show databases;
 
 grant drop on 'mosbank' to 'spring'@'localhost';
+
+Keep in mind:
+Convert the cancel buttons to <a> tags in all html pages
+Application endpoints:
+
+/ : This is the root of the app. It redirects you to /login
+/login : Login Page
+/signup : Sign Up Page
+/atm : mosbank's atm machine

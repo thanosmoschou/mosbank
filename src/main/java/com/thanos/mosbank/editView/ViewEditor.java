@@ -23,12 +23,14 @@ public class ViewEditor
 	{
 	}
 	
+	
 	public static ViewEditor getInstance()
 	{
 		if(instance == null)
 			instance = new ViewEditor();
 		return instance;
 	}
+	
 	
 	public void putInfoToTheMainPageTemplate(int userId, Model model)
 	{
@@ -48,6 +50,7 @@ public class ViewEditor
 		model.addAttribute("usertransactions", transactions);
 	}
 	
+	
 	public void putInfoToNewTransactionPageTemplate(int userId, Model model)
 	{
 		User user = dbSaver.fetchUserFromRepository(userId);
@@ -57,6 +60,7 @@ public class ViewEditor
 		model.addAttribute("user_id", userId);
 		model.addAttribute("senderIban", ibanAsAString);
 	}
+	
 	
 	public void putInfoToMyAccountPageTemplate(int userId, Model model)
 	{
@@ -76,6 +80,7 @@ public class ViewEditor
 		model.addAttribute("email", email);
 		model.addAttribute("telephone", telephone);
 	}
+	
 	
 	public void putInfoToCardPageTemplate(int userId, Model model)
 	{
