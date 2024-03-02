@@ -9,6 +9,8 @@
 ![MainPage](/screenshots/mainPage.png) <br>
 ### New Transaction
 ![NewTransaction](/screenshots/newTransaction.png) <br>
+### ATM Login
+![AtmLogin](/screenshots/atmLogin.png)
 ...
 <br>
 
