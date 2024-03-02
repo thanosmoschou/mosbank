@@ -2,13 +2,13 @@
 ##This is an online banking system built with Java and Spring Boot.
 ##Screenshots
 Login
-[!UserLogin](/screenshots/userLogin.png) <br>
+![UserLogin](/screenshots/userLogin.png) <br>
 Sign Up
-[!UserSignUp](/screenshots/userSignUp.png) <br>
+![UserSignUp](/screenshots/userSignUp.png) <br>
 Main Page
-[!MainPage](/screenshots/mainPage.png) <br>
+![MainPage](/screenshots/mainPage.png) <br>
 New Transaction
-[!NewTransaction](/screenshots/newTransaction.png) <br>
+![NewTransaction](/screenshots/newTransaction.png) <br>
 ...
 <br>
 ##Available Endpoints
