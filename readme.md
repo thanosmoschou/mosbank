@@ -1,13 +1,13 @@
 # mosbank
 ## This is an online banking system built with Java and Spring Boot.
 ## Screenshots
-Login
+### Login
 ![UserLogin](/screenshots/userLogin.png) <br>
-Sign Up
+### Sign Up
 ![UserSignUp](/screenshots/userSignUp.png) <br>
-Main Page
+### Main Page
 ![MainPage](/screenshots/mainPage.png) <br>
-New Transaction
+### New Transaction
 ![NewTransaction](/screenshots/newTransaction.png) <br>
 ...
 <br>
