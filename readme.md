@@ -5,14 +5,12 @@
 ![UserLogin](/screenshots/userLogin.png) <br>
 ### Sign Up
 ![UserSignUp](/screenshots/userSignUp.png) <br>
-### Main Page
-![MainPage](/screenshots/mainPage.png) <br>
-### New Transaction
-![NewTransaction](/screenshots/newTransaction.png) <br>
+### MyAccount Page
+![MyAccountPage](/screenshots/myAccountPage.png) <br>
 ### ATM Login
-![AtmLogin](/screenshots/atmLogin.png)
-...
-<br>
+![AtmLogin](/screenshots/atmLogin.png) <br>
+### ATM Use
+![AtmUse](/screenshots/atmUse.png) <br>
 
 ## Available Endpoints
 
@@ -53,5 +51,8 @@ set the following VM Arguments to the IDE: <br>
 ```--spring.datasource.url=jdbc:mysql://localhost:3306/mosbank --spring.datasource.username=yourName --spring.datasource.password=yourPassword``` <br>
 Last but not least, you can set some environment variables with those values, in case you do not want to add them to a file or do not want to set VM Arguments. <br>
 
+You can access the app via browser: <br>
+```http://localhost:8080``` <br>
+
 #### Keep in mind:
-Convert the cancel buttons to <a> tags in all html pages
+The data inside the database will be deleted when you restart the app. <br>

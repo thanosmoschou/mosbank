@@ -1,0 +1,147 @@
+@font-face{
+    font-family: Sofia;
+    src: url(../fonts/Sofia-Regular.ttf);
+}
+
+@font-face{
+    font-family: Comfortaa;
+    src: url(../fonts/Comfortaa-Regular.ttf);
+}
+
+body{
+    background-image: url(../images/atmBackground.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#dashboard{
+    position: relative;
+    font-family: Comfortaa;
+    font-size: 40px;
+    color: #ffffff;
+    width: 150px;
+    text-align: center;
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+#actionsList{
+    position: absolute;
+    display: inline-flex;
+    justify-content: space-around;
+    width: 100px;
+    height: 30px;
+    list-style-type: none;
+    right: 20px;
+    top: 25px;
+}
+
+/*Items inside my actionsList*/
+#actionsList a{
+    display: inline-block;
+    font-family: Comfortaa;
+    font-size: 15px;
+    color: #cccccc;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+#atmTransactionArea{
+    position: relative;
+    top: 20px;
+    padding: 4px;
+    text-align: center;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    margin-top: 40px;
+    border-radius: 10px;
+    border: 2px solid #caeaf8;
+    background: linear-gradient(to right, rgba(88, 147, 187, 0.9), rgba(25, 58, 88, 0.9));
+    box-shadow: -5px 0 10px #85bee4e6, 5px 0 10px #204568e6; 
+    font-family: Comfortaa;
+}
+
+#welcomeUserLabel, #balanceLabel{
+    color: white;
+}
+
+.atmActionForm{
+    position: absolute; 
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    height: 200px;
+    width: 295px;
+    top: 100px;
+}
+
+#actionPromptLabel{
+    position: relative;
+    top: 10px;
+    left: 5px;
+}
+
+#amountLabel{
+    position: relative;
+    margin-top: 20px;
+    top: 40px;
+}
+
+#amountInput, #atmActionOptions{
+    position: relative;
+    font-family: Comfortaa;
+    font-size: 15px;
+    width: 150px;
+    height: 25px;
+    background-color: #cccccc;
+    border-radius: 8px;
+    opacity: 0.9;
+    border: none;
+}
+
+#atmActionOptions{
+    font-family: Comfortaa;
+    top: 20px;
+}
+
+#amountInput{
+    margin-top: 20px; 
+    top: 30px;
+}
+
+#executeButton{
+    top: 55px;
+    position: relative;
+    font-family: Comfortaa;
+    height: 30px;
+    width: 100px;
+    border-radius: 10px;
+    color: #f3f6fb;
+    border-style: none;
+    background-color: #000000e6;
+    font-size: 10px;
+}
+
+#bankLabel{
+    position: fixed;
+    font-family: Comfortaa;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+    left: 0px;
+    bottom: 10px;
+    width: 250px;
+}
+
+#author{
+    position: fixed;
+    font-family: Sofia;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+    right: 0px;
+    bottom: 0px;
+    width: 250px;
+}

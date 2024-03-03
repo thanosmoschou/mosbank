@@ -2,37 +2,39 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <!-- <link rel="stylesheet" th:href="@{/css/cardStyles.css}"/> -->
-    <link rel="stylesheet" href="../../static/css/cardStyles.css">    
+    <link rel="stylesheet" th:href="@{/css/cardStyles.css}"/>
+    <!-- <link rel="stylesheet" href="../../static/css/cardStyles.css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Card Page</title>
 </head>
 <body>
     <header>
         <h1 id="dashboard">Dashboard</h1>
         <ul id="actionsList">
-            <li><a th:href="@{/}">Logout</a></li>
+            <li><a href="/atm">Logout</a></li>
         </ul>
     </header>
 
-    <main>
-        <h2 id="welcomeUserLabel" th:text="'Welcome ' + ${firstname}"></h2>
-        <h3 id="balanceLabel" th:text="'Your Balance: ' + ${balance}"></h3> <br><br>
+    <main id="atmTransactionArea">
+        <h2 id="welcomeUserLabel" th:text="'Welcome ' + ${firstname}">Welcome Test User</h2>
+        <h3 id="balanceLabel" th:text="'Your Balance: ' + ${balance} + '€'">Your Balance: 30000</h3> <br><br> <!--The static text will be overwritten by thymeleaf. It exists only for testing purposes-->
 
         <form class="atmActionForm" method="post" action="#" th:action="@{/validateNewAtmAction}">
-            <label for="action">Please select your action:</label><br>
-            <select name="action" id="atmAction">
+            <label for="action" id="actionPromptLabel">Please select your action:</label><br>
+            <select name="action" id="atmActionOptions">
                 <option value="Deposit">Deposit</option>
                 <option value="Withdraw">Withdraw</option>
             </select><br>
 
-            <label for="amount">Enter an amount:</label><br>
-            <input type="text" name="amount" required><br>
+            <label for="amount" id="amountLabel">Enter an amount:</label><br>
+            <input type="text" name="amount" required id="amountInput"><br>
 
-            <input type="submit" value="Execute">
+            <input type="submit" value="Execute" id="executeButton">
         </form>
     </main>
 
     <footer>
+        <h3 id="bankLabel">powered by mosbank</h3>
         <h5 id="author">v1.0 by Thanos Moschou, 2023 &copy;</h5>
     </footer>
 </body>

@@ -165,15 +165,30 @@ body{
 }
 
 #submitButton, #cancelButton{
-    position: relative;
+    position: absolute;
     font-family: Comfortaa;
-    height: 35px;
     width: 100px;
+    height: 35px;
     border-radius: 10px;
     border-style: none;
     background-color: #333333;
     color: white;
-    top: 160px;
+    font-size: 15px;
+}
+
+#submitButton{
+    top: 510px;
+    left: 50px;
+}
+
+#cancelButton{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+    top: 510px;
+    left: 160px;
 }
 
 #author{

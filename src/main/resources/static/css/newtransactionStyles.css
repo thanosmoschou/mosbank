@@ -15,7 +15,7 @@ body{
 
 #newTransactionTitleLabel{
     position: relative;
-    font-family: Sofia;
+    font-family: Comfortaa;
     font-size: 40px;
     color: white;
     width: 350px;
@@ -131,7 +131,7 @@ body{
 }
 
 #sendMoneyButton, #cancelButton{
-    position: relative;
+    position: absolute;
     font-family: Comfortaa;
     height: 35px;
     width: 100px;
@@ -139,8 +139,23 @@ body{
     border-style: none;
     background-color: #242222;
     color: white;
-    top: 130px;
+    top: 350px;
+    font-size: 15px;
 }
+
+#sendMoneyButton{
+    left: 120px;
+}
+
+#cancelButton{
+    left: 245px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+
 
 #author{
     position: fixed;
