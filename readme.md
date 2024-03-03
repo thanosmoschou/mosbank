@@ -14,7 +14,7 @@
 
 ## Available Endpoints
 
-```/```: This is the root of the app. It redirects you to /login <br>
+```/```: This is the root of the app. It redirects you to ```/login``` <br>
 ```/login``` : Login Page <br>
 ```/signup``` : Sign Up Page <br>
 ```/atm``` : mosbank's atm machine <br>
