@@ -5,6 +5,8 @@
 ![UserLogin](/screenshots/userLogin.png) <br>
 ### Sign Up
 ![UserSignUp](/screenshots/userSignUp.png) <br>
+### Main Page
+![Mainpage](/screenshots/mainPage.png) <br>
 ### MyAccount Page
 ![MyAccountPage](/screenshots/myAccountPage.png) <br>
 ### ATM Login
