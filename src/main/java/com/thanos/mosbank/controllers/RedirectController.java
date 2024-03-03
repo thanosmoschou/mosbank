@@ -130,13 +130,9 @@ public class RedirectController
 		String username = values.get("username").get(0);
 		String password = values.get("password").get(0);
 		
-		//TESTING PURPOSES
-		this.userId = 3;
-		return goToMainPage(model);
-		
 		//the return value is the user's id if user exists, otherwise it contains an error code
 		
-		/*int returnedValue = accountValidator.login(username, password);
+		int returnedValue = accountValidator.login(username, password);
 		
 		if(returnedValue == StatusCode.WRONG_USERNAME)
 			return goToSomethingWentWrongPage(Alerts.WRONG_USERNAME_MESSAGE, "login", model);
@@ -146,9 +142,7 @@ public class RedirectController
 		{
 			this.userId = returnedValue;
 			return goToMainPage(model);
-		}
-		*/
-		
+		}	
 	}
 	
 	
@@ -235,7 +229,7 @@ public class RedirectController
 		else if(atmActionStatusCode == StatusCode.INVALID_AMOUNT_FOR_TRANSACTION)
 			return goToSomethingWentWrongPage(Alerts.INVALID_AMOUNT_FOR_TRANSACTION_MESSAGE, "card", model);
 		else
-			return goToSuccessPage(Alerts.SUCCESSFUL_TRANSACTION_MESSAGE, "login", model);
+			return goToSuccessPage(Alerts.SUCCESSFUL_TRANSACTION_MESSAGE, "card", model);
 	}
 	
 	

@@ -2,13 +2,14 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <!-- <link rel="stylesheet" th:href="@{/css/atmStyles.css}"> -->
-    <link rel="stylesheet" href="../../static/css/atmStyles.css">
+    <link rel="stylesheet" th:href="@{/css/atmStyles.css}">
+    <!-- <link rel="stylesheet" href="../../static/css/atmStyles.css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATM</title>
 </head>
 <body>
     <header>
-        <h1 id="atmTitleLabel">Your friendly neighbourhood ATM!</h1>
+        <h1 id="atmTitleLabel">mosATM</h1>
     </header>
 
     <main>
@@ -23,7 +24,7 @@
                 <input type="text" id="pin" name="cardPinInput" required><br>
 
                 <input id="submitButton" type="submit" value="Enter">
-                <button id="backButton" th:onclick="window.location='/login'">Go To Login Page</button>
+                <a id="backButton" href="/login">Go To Login Page</a>
             </form>
         </div>
     </main>

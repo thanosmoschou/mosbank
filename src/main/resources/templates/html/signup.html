@@ -4,6 +4,7 @@
         <title>Sign Up Page</title>
         <link rel="stylesheet" th:href="@{/css/signupStyles.css}"/>
         <!-- <link rel="stylesheet" href="../../static/css/signupStyles.css"> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta charset="utf-8"/>
     </head>
 
@@ -37,7 +38,7 @@
                     <input type="tel" id="telephone" name="telephone" th:placeholder="'6944444444'" required><br>
     
                     <input id="submitButton" type="submit" value="Sign Up">
-                    <button id="cancelButton" th:onclick="window.location='/'">Cancel</button>
+                    <a id="cancelButton" href="/">Cancel</a>
     
                 </form>
             </div>

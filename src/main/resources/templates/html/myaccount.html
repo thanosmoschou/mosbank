@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <!-- <link rel="stylesheet" th:href="@{/css/myAccountStyles.css}"> -->
-    <link rel="stylesheet" href="../../static/css/myAccountStyles.css">
+    <link rel="stylesheet" th:href="@{/css/myAccountStyles.css}">
+    <!-- <link rel="stylesheet" href="../../static/css/myAccountStyles.css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Account</title>
 </head>
 <body>
@@ -43,7 +44,7 @@
                 <input type="tel" id="telephone" name="telephoneInput" th:value="${telephone}" required><br>
 
                 <input id="submitButton" type="submit" value="Edit">
-                <button id="backButton" th:onclick="window.location='/mainpage'">Back</button>
+                <a id="backButton" th:href="'/mainpage'">Back</a>
             </form>
         </div>
     </main>
