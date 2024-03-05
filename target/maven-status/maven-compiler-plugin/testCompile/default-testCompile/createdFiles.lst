@@ -1,0 +1,5 @@
+com\thanos\mosbank\MosbankApplicationTests.class
+com\thanos\mosbank\db\DbSaverTest.class
+com\thanos\mosbank\validators\TransactionValidatorTest.class
+com\thanos\mosbank\generators\CardCredentialsGeneratorTest.class
+com\thanos\mosbank\validators\AccountValidatorTest.class
