@@ -1,0 +1,149 @@
+@font-face{
+    font-family: Sofia;
+    src: url(../fonts/Sofia-Regular.ttf);
+}
+
+@font-face{
+    font-family: Comfortaa;
+    src: url(../fonts/Comfortaa-Regular.ttf);
+}
+
+body{
+    background-image: url(../images/atmBackground.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#atmTitleLabel{
+    position: relative; /*space will be included inside the document*/
+    font-family: Comfortaa;
+    font-size: 20px;
+    color: #ffffff;
+    width: 100px;
+    text-align: center;
+    margin-left: 50px;
+    margin-top: 10px;
+    top: 25px;
+}
+
+.atmArea{
+    position: relative;
+    top: 20px;
+    padding: 4px;
+    text-align: center;
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    margin-top: 40px;
+    border-radius: 10px;
+    border: 2px solid #caeaf8;
+    background: linear-gradient(to right, rgba(88, 147, 187, 0.9), rgba(25, 58, 88, 0.9));
+    box-shadow: -5px 0 10px #85bee4e6, 5px 0 10px #204568e6; 
+}
+
+#atmUsePromptLabel{
+    position: relative;
+    font-family: Comfortaa;
+    color: white;
+    font-size: 20px;
+    margin: auto;
+    margin-top: 10px;
+    top: 10px;
+}
+
+.atmForm{
+    position: relative; /*space inside the anchestor will be calculated inside the document*/
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    height: 300px;
+    top: 10px;
+}
+
+#cardNumberLabel, #cardPinLabel{
+    position: absolute; /*the space for this element will not be calculated inside the anchestor...like the elements are above the anchestor*/
+    left: 40px;
+    font-family: Comfortaa;
+    padding-left: 10px; /*Adding padding for better spacing around the label */
+    text-align: left;
+}
+
+#cardNumberLabel{
+    margin-top: 20px;
+    top: 25px;
+}
+    
+#cardPinLabel{
+    margin-top: 20px; 
+    top: 105px;
+}
+
+#number, #pin{
+    position: relative;
+    font-family: Comfortaa;
+    font-size: 10px;
+    width: 200px;
+    height: 25px;
+    background-color: #cccccc;
+    border-radius: 8px;
+    opacity: 0.9;
+    border: none;
+    margin-top: 5px;
+}
+
+#number{
+    top: 35px;
+}
+
+#pin{
+    top: 65px; 
+}
+
+#submitButton, #backButton{
+    position: absolute;
+    font-family: Comfortaa;
+    border-radius: 10px;
+    color: #f3f6fb;
+    border-style: none;
+    background-color: #000000e6;
+    font-size: 10px;
+    width: 100px;
+    height: 30px;
+}
+
+#submitButton{
+    top: 200px;
+    left: 50px;
+}
+
+#backButton{
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+    top: 200px;
+    left: 160px;
+    text-align: center;
+    align-items: center;
+}
+
+#bankLabel{
+    position: fixed;
+    font-family: Comfortaa;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+    left: 0px;
+    bottom: 0px;
+    width: 250px;
+}
+
+#author{
+    position: fixed;
+    font-family: Sofia;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+    right: 0px;
+    bottom: 0px;
+    width: 250px;
+}

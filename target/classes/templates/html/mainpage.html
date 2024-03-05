@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/mainpageStyles.css}">
+    <!-- <link rel="stylesheet" href="../../static/css/mainpageStyles.css"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+</head>
+<body>
+    <header>
+        <h1 class="dashboard">Dashboard</h1>
+        <ul id="actionsList">
+            <li id="trans"><a th:href="@{'/transaction/' + ${user_id}}">New Transaction</a></li>
+            <li id="acc"><a th:href="@{'/account/' + ${user_id}}">My Account</a></li>
+            <li id="logout"><a th:href="@{/}">Logout</a></li>
+        </ul>
+    </header>
+
+    <main>
+        <h2 id="welcomeUserLabel" th:text="'Welcome ' + ${firstname}">Welcome Test User</h2> <!--This text will be overwritten when app starts-->
+        <h3 id="balanceLabel" th:text="'Your Balance: ' + ${balance} + '€'">Your Balance: 100000€</h3>
+        <h4 id="transactionsLabel">Let's see your transactions</h4>
+
+        <div id="tableContainer">
+            <table>
+                <tr>
+                    <th>Transaction Id</td>
+                    <th>Date</td>
+                    <th>Amount</td>
+                    <th>Description</td>
+                </tr>
+                <tr th:each="transaction : ${usertransactions}">
+                    <td th:text="${transaction.trans_id}">120</td>
+                    <td th:text="${transaction.trans_date}">21/12/2023</td>
+                    <td th:text="${transaction.amount}">2500</td>
+                    <td th:text="${transaction.description_message}">Payroll Moschou</td>
+                </tr>
+            </table>
+        </div>
+
+    </main>
+
+    <footer>
+        <h5 id="author">v1.0 by Thanos Moschou, 2023 &copy;</h5>
+    </footer>
+</body>
+</html>

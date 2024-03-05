@@ -1,0 +1,169 @@
+@font-face{
+    font-family: Sofia;
+    src: url(../fonts/Sofia-Regular.ttf);
+}
+
+@font-face{
+    font-family: Comfortaa;
+    src: url(../fonts/Comfortaa-Regular.ttf);
+}
+
+body{
+    background-image: url(../images/backgroundPink.jpg);
+    background-size: auto;
+}
+
+#newTransactionTitleLabel{
+    position: relative;
+    font-family: Comfortaa;
+    font-size: 40px;
+    color: white;
+    width: 350px;
+    text-align: center;
+    margin-left: 30px;
+    margin-top: 30px;
+}
+
+#actionsList{
+    position: absolute;
+    display: inline-flex;
+    justify-content: space-around;
+    width: 400px;
+    height: 30px;
+    list-style-type: none;
+    right: 0px;
+    top: 20px;
+}
+
+/*Items inside my actionsList*/
+#mainPage a, #acc a, #logout a{
+    display: inline-block;
+    font-family: Comfortaa;
+    font-size: 15px;
+    color: white;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.newTransactionArea{
+    padding: 4px;
+    text-align: center;
+    width: 450px;
+    height: 550px;
+    margin: auto;
+    margin-top: 0px;
+    border-radius: 10px;
+    background-color: #390c0c69;
+}
+
+.newTransactionForm{
+    position: relative; /*space inside the anchestor will be calculated inside the document*/
+    font-size: 20px;
+    color: white;
+    text-align: center;
+    height: 450px;
+    width: 450px;
+}
+
+#transactionPromptLabel{
+    position: relative; /*if you add position property you unlock top, bottom, left, right properties. Cannot use top and bottom together or left and right together.*/
+    font-family: Comfortaa;
+    font-size: 25px;
+    color: white;
+    top: 10px; 
+    padding: 10px; /* Adding padding for better spacing around the label */
+    
+}
+
+#senderIbanLabel, #amountLabel, #receiverIbanLabel, #descriptionLabel{
+    position: absolute; /*the space for this element will not be calculated inside the anchestor...like the elements are above the anchestor*/
+    left: 90px;
+    font-family: Comfortaa;
+    margin-top: 20px;
+    padding-left: 10px; /*Adding padding for better spacing around the label */
+    text-align: left;
+}
+
+#senderIbanLabel{
+    top: 0px;
+}
+
+#amountLabel{
+    top: 80px;
+}
+
+#receiverIbanLabel{
+    top: 160px;
+}
+
+#descriptionLabel{
+    top: 240px;
+}
+
+#sendIban, #amount, #receiveIban, #descriptionInput{
+    position: relative;
+    font-family: Comfortaa;
+    font-size: 15px;
+    width: 250px;
+    height: 30px;
+    background-color: #cccccc;
+    border-radius: 8px;
+    opacity: 0.9;
+    border: none;
+    top: 450px;
+}
+
+#sendIban{
+   top: 10px;
+}
+
+#amount{
+    top: 35px;
+} 
+
+#receiveIban{
+    top: 60px;
+}
+
+#descriptionInput{
+    top: 85px;
+}
+
+#sendMoneyButton, #cancelButton{
+    position: absolute;
+    font-family: Comfortaa;
+    height: 35px;
+    width: 100px;
+    border-radius: 10px;
+    border-style: none;
+    background-color: #242222;
+    color: white;
+    top: 350px;
+    font-size: 15px;
+}
+
+#sendMoneyButton{
+    left: 120px;
+}
+
+#cancelButton{
+    left: 245px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+
+#author{
+    position: fixed;
+    font-family: Sofia;
+    text-align: center;
+    font-size: 10px;
+    color: white;
+    right: 0px;
+    bottom: 0px;
+    width: 250px;
+}

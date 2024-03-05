@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <!-- <link rel="stylesheet" href="../../static/css/successStyles.css"> -->
+    <link rel="stylesheet" th:href="@{/css/successStyles.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+</head>
+<body>
+    <h2>Success!</h2>
+    <p th:text="${statusMessage}">Test message</p>
+    <a id="mainPage" th:href="@{'/' + ${backUrl}}" target="_self">Go back</a><br>
+</body>
+</html>

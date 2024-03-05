@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+    <head>
+        <title>Sign Up Page</title>
+        <link rel="stylesheet" th:href="@{/css/signupStyles.css}"/>
+        <!-- <link rel="stylesheet" href="../../static/css/signupStyles.css"> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8"/>
+    </head>
+
+    <body>
+        <header>
+            <h2 class="pageTitle">mosbank</h2>
+            <a id="atm" href="/atm" target="_self">Use our atm</a>
+        </header>
+        
+        <main>
+            <div class="signupArea">
+                <p id="signupPromptLabel">Let's sign up!</p>
+                <form class="signupForm" method="post" action="#" th:action="@{/validateSignUp}"><br>
+    
+                    <label id="firstNameLabel" for="firstname">First Name:</label><br>
+                    <input type="text" id="firstname" name="firstname" th:placeholder="'e.g John'" required><br>
+    
+                    <label id="lastNameLabel" for="lastname">Last Name:</label><br>
+                    <input type="text" id="lastname" name="lastname" th:placeholder="'e.g Doe'" required><br>
+    
+                    <label id="usernameLabel" for="username">Username:</label><br>
+                    <input type="text" id="username" name="username" th:placeholder="'e.g JohnDoe123'" required><br>
+    
+                    <label id="passwordLabel" for="password">Password:</label><br>
+                    <input type="password" id="password" name="password" required><br>
+    
+                    <label id="emailLabel" for="email">Email:</label><br>
+                    <input type="email" id="email" name="email" th:placeholder="'johndoe@example.com'" required><br>
+    
+                    <label id="telephoneLabel" for="telephone">Telephone:</label><br>
+                    <input type="tel" id="telephone" name="telephone" th:placeholder="'6944444444'" required><br>
+    
+                    <input id="submitButton" type="submit" value="Sign Up">
+                    <a id="cancelButton" href="/">Cancel</a>
+    
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <h5 id="author">v1.0 by Thanos Moschou, 2023 &copy;</h5>
+        </footer>
+    </body>
+</html>
