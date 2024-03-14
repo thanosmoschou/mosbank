@@ -69,6 +69,9 @@ Check if the container is running: <br>
 ```docker build -t mosbankimage -f DockerfileJava ..``` <br>
 ```docker run -d --name mosbank mosbankimage``` <br>
 
+Check container's ip: <br>
+```docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mosbankdb``` <br>
+
 #### Keep in mind:
 The data inside the database will be deleted when you restart the app. <br>
 
