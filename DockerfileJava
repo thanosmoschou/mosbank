@@ -7,10 +7,7 @@ COPY . .
 
 # Replace application.properties with applicationForDocker.properties
 # RUN mv filesForDocker/springPropertiesForDocker.txt /mosbank/src/main/resources/application.properties
-RUN mv filesForDocker/springPropertiesForDocker.txt /mosbank/src/main/resources/application.properties
-
-# Remove applicationForDocker.properties
-RUN rm -rf /mosbank/filesForDocker/
+RUN mv springPropertiesForDocker.txt /mosbank/src/main/resources/application.properties
 
 EXPOSE 8080
 

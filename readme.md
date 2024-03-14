@@ -56,16 +56,18 @@ Last but not least, you can set some environment variables with those values, in
 You can access the app via browser: <br>
 ```http://localhost:8080``` <br>
 
-### Docker 
+### Docker (Under Construction)
 If you do not want to do all the previous steps to create the running environment, you can create some docker containers. <br>
 Make sure you have Docker installed (on windows you need Docker Desktop). <br>
 Open the project's folder to a terminal (make sure Docker Engine is running). <br>
 Run the following commands: <br>
 ```cd filesForDocker``` <br>
+Create MySQL container: <br>
 ```docker build -t mosbankdbimage -f DockerfileMySQL .``` <br>
 ```docker run -d --name mosbankdb mosbankdbimage``` <br>
 Check if the container is running: <br>
 ```docker ps``` <br>
+Create the Java Application Container: <br>
 ```docker build -t mosbankimage -f DockerfileJava ..``` <br>
 ```docker run -d --name mosbank mosbankimage``` <br>
 
