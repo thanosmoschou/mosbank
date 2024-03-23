@@ -56,7 +56,7 @@ Last but not least, you can set some environment variables with those values, in
 You can access the app via browser: <br>
 ```http://localhost:8080``` <br>
 
-### Docker (Under Construction)
+<!-- ### Docker (Under Construction)
 If you do not want to do all the previous steps to create the running environment, you can create some docker containers. <br>
 Make sure you have Docker installed (on windows you need Docker Desktop). <br>
 Open the project's folder to a terminal (make sure Docker Engine is running). <br>
@@ -72,7 +72,7 @@ Create the Java Application Container: <br>
 ```docker run -d --name mosbank mosbankimage``` <br>
 
 Check container's ip: <br>
-```docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mosbankdb``` <br>
+```docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mosbankdb``` <br> -->
 
 #### Keep in mind:
 The data inside the database will be deleted when you restart the app. <br>
