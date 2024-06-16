@@ -1,0 +1,13 @@
+FROM openjdk
+
+WORKDIR /mosbank
+
+# Go to target folder of my project and copy the mosbank_app.jar to a file named mosbank_app.jar in my /mosbank working directory of my container.
+COPY target/mosbank_app.jar mosbank_app.jar
+
+# The EXPOSE instruction in a Dockerfile specifies the ports on which a container listens for connections.
+# It does not actually make the ports accessible to the host or to other containers unless they are
+# explicitly published using the -p flag with docker run.
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "mosbank_app.jar"]

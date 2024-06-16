@@ -1,9 +1,0 @@
-FROM mysql:latest
-
-ENV MYSQL_ROOT_PASSWORD=!@#$%^&*()
-ENV MYSQL_DATABASE=mosbank
-ENV MYSQL_USER=spring
-ENV MYSQL_PASSWORD=spring
-
-COPY mysqlScriptForDocker.sql /docker-entrypoint-initdb.d/
-RUN echo "GRANT SELECT, UPDATE, DELETE, REFERENCES, INSERT, DROP, CREATE on mosbank.* to 'spring'@'%';" > /docker-entrypoint-initdb.d/grant_privileges.sql

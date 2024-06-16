@@ -1,0 +1,5 @@
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+CREATE USER 'spring'@'%' identified by 'spring';
+CREATE DATABASE mosbank;
+GRANT SELECT, UPDATE, DELETE, REFERENCES, INSERT, DROP, CREATE on mosbank.* to 'spring'@'%';
