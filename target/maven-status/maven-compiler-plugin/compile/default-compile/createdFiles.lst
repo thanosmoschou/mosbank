@@ -3,6 +3,7 @@ com\thanos\mosbank\model\User.class
 com\thanos\mosbank\validators\AccountValidator.class
 com\thanos\mosbank\db\DbSaver.class
 com\thanos\mosbank\generators\IbanGenerator.class
+com\thanos\mosbank\DatabaseInitializer.class
 com\thanos\mosbank\model\Transaction.class
 com\thanos\mosbank\model\User$UserBuilder.class
 com\thanos\mosbank\controllers\RedirectController.class

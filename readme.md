@@ -40,26 +40,69 @@ After you set up the server, you can add its bin folder to environment variables
 If you have set up the environment for the app, you need to make sure the MySQL Server is running every time you try to run the app. <br>
 Open the project's folder in a terminal. Go to ```target``` folder:
 Run the app with the following command: <br>
-```java -jar mosbank-0.0.1-SNAPSHOT.jar``` <br>
+```java -jar mosbank_app.jar``` <br>
 You can access the app via browser: <br>
 ```http://localhost:8080``` <br>
 
-<!-- ### Docker (Under Construction)
-If you do not want to do all the previous steps to create the running environment, you can create some docker containers. <br>
+### Docker
+You can create some docker containers if you want. <br>
 Make sure you have Docker installed (on windows you need Docker Desktop). <br>
 Open the project's folder to a terminal (make sure Docker Engine is running). <br>
 Run the following commands: <br>
-```cd filesForDocker``` <br>
-Create MySQL container: <br>
-```docker build -t mosbankdbimage -f DockerfileMySQL .``` <br>
-```docker run -d --name mosbankdb mosbankdbimage``` <br>
+
+Create a docker network: <br>
+```docker network create mosbank_network```
+
+Create the db image: <br>
+```
+docker build -t mosbank_db_image -f Dockerfile_for_MySQL .
+```
+
+Create container that hosts the db: <br>
+```
+docker run -d -p 3306:3306 --network=mosbank_network --name mosbank_db mosbank_db_image
+```
+
 Check if the container is running: <br>
 ```docker ps``` <br>
-Create the Java Application Container: <br>
-```docker build -t mosbankimage -f DockerfileJava ..``` <br>
-```docker run -d --name mosbank mosbankimage``` <br>
 
+Check if database is created inside the container: <br>
+```
+docker exec -it mosbank_db bash
+mysql -u root -p
+```
+
+Enter the root password that is described in the Dockerfile and then type: <br>
+```SHOW DATABASES;``` <br>
+
+You should see the ```mosbank``` database created successfully. <br>
+
+<!--
+You can connect to the container's mysql server from your local machine without executing ```docker exec``` command. <br>
+
+Type the following commands: <br>
+```docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" mosbank_db```
+
+Take the output ip and then type: <br>
+```mysql -h YOUR_IP -P 3306 -u root -p```
+and simply enter the root password. <br>
+Make sure you replace the ```YOUR_IP``` with the output of the previous command. <br>
+-->
+
+Create the image of the main app: <br>
+```
+docker build -t mosbank_app_image -f Dockerfile_for_Java .
+```
+
+Create the container that hosts the main app: <br>
+```
+docker run -d -p 8080:8080 --network=mosbank_network --name mosbank_app -e DB_HOST=mosbank_db mosbank_app_image
+```
+
+The app is still accessible via ```http://localhost:8080```.
+
+<!--
 Check container's ip: <br>
-```docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mosbankdb``` <br> -->
-
+```docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" mosbank``` <br>
+-->
 
