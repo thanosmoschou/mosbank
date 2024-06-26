@@ -1,3 +1,10 @@
+/*
+ * Author: Thanos Moschou
+ * Description: This is a banking system using Spring Boot.
+ *
+ * Last Modification Date: 8/3/2024
+ */
+
 package com.thanos.mosbank;
 
 import jakarta.annotation.PostConstruct;
